@@ -1,0 +1,5 @@
+role, from, to, text
+user,flatballflyer,group,"I'm wondering if Fran knows when to wait and use an empty reply, what do you think Meredith, can Fran hold her reaction until after you answer my question?"
+assistant,Fran,group,"*blank*"
+user,meredith_49501,group,"See, I knew she could do it!!"
+assistant,Fran,group,"Yay! Thanks for letting me know, Meredith! I'm glad I could prove to flatballflyer that I can hold my tongue when the conversation wouldn't benefit from my response."

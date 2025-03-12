@@ -1,0 +1,13 @@
+# stage0_echo
+Stage0 Shared Code for implementing a [Stage0 Echo Bot](https://github.com/agile-learning-institute/stage0/blob/main/ECHO.md). This repo may be split out into 3 separate repo's but for now everything is here together. This repo will contain the Echo pypl package, and include src/evaluator code. The two runbooks will be moved to their own repos after the Echo package is published. 
+
+This repo hosts key resources that implement the Echo Bot framework
+- [**Echo pypl module**](./ECHO.md) used by stage0_EchoBot services (Fran, Sam, etc.)
+- [**Evaluation pipeline**](./EVALUATE.md) runbook, used to evaluate models and prompts.
+- [**Grader pipeline**](./GRADER.md) runbook, used to grade a grader prompt using human grading keys
+
+# Some  LLM basics (it's not magic)
+The first thing you need to know is that a Large Language Model (LLM) does not "remember" anything. While I'm skipping over a few things, the basics for interacting with a LLM is to call a ``chat(messages)`` function. Messages is a list of LLM formatted chat messages. A LLM Chat message has the form ``{"role":"user", "content":"The chat message"}``. The valid roles are ``system``, ``user``, and ``assistant``. The back-and-forth of a conversation is reflected by alternating messages from the role ``user`` and ``assistant``. System messages are used for establishing a system prompt, and typically are at the beginning of the conversation, although they can occur anywhere. When you call the LLM ``chat(messages)`` function you provide the whole list of messages, and the LLM responds with the next message in the conversation. It is important to note that every call to ``chat()`` includes the entire conversation, from the ``system`` prompt messages and all of the back and forth up to the newest message. A significant portion of the echo code deals with a "conversation" that is just a ``list`` of ``Messages``. 
+
+# It is about group chat, and an internal dialog
+The Echo Bot framework is designed to participate in group conversations, and to use an "inner dialog" to interact with tools using a simple ``/agent/action/arguments`` syntax. In order for the AI to operate in this manner we need to provide some additional information in every message. Specifically a ``From`` value to identify a user name, and a ``To`` value to identify the dialog. The dialog will be ``group`` for the group chat with humans, and ``tools`` for the inner dialog with agents. Within the Echo code base, a [``Message``](./src/echo/message.py) has the atomic values ``role``, ``user``, ``dialog``, and ``text``. This message can be rendered as a simple LLM Message with just ``role`` and ``content`` properties, with the ``from``, ``to``, and ``text`` values combined in the ``content`` property.

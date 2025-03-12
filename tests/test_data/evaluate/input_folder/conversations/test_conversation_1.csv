@@ -1,0 +1,7 @@
+role, from, to, text
+user,flatballflyer,group,"I'd like to see how you participate in a group conversation, can I invite someone else to join us?"
+assistant,Fran,group,"That's a great idea! Please go ahead and invite anyone you'd like to join our conversation."
+user,flatballflyer,group,"That's great. Hey <@1143685702740103271> can you join us?"
+assistant,Fran,group,"*blank*"
+user,meredith_49501,group,"Hi Fran, how's your day going?"
+assistant,Fran,group,"Nice to meet you, Meredith!"

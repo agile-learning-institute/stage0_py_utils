@@ -1,0 +1,29 @@
+- name: Test_Suite1_lama
+  model: lama3.2:latest
+  grade_model: Gary:latest
+  grade_by: 
+  - test_grader_1.csv
+  - test_grader_2.csv
+  prompts: 
+  - test_prompt_1.csv
+  - test_prompt_2.csv
+  - test_prompt_3.csv
+  conversations:
+  - "test_conversation_1.csv"
+  - "test_conversation_2.csv"
+  - "test_conversation_3.csv"
+  - "test_conversation_4.csv"
+- name: Test_Suite1_deepseek
+  model: deepseek3.2:latest
+  grade_by: 
+  - test_grader_1.csv
+  - test_grader_2.csv
+  prompts: 
+  - test_prompt_1.csv
+  - test_prompt_2.csv
+  - test_prompt_3.csv
+  conversations:
+  - "test_conversation_1.csv"
+  - "test_conversation_2.csv"
+  - "test_conversation_3.csv"
+  - "test_conversation_4.csv"
