@@ -27,9 +27,9 @@ class Echo:
         self.llm_client = client or OllamaLLMClient(model=model)
 
         # Register default agents
-        from agents.bot_agent import create_bot_agent
-        from agents.conversation_agent import create_conversation_agent
-        from agents.echo_agent import create_echo_agent
+        from stage0_py_utils.agents.bot_agent import create_bot_agent
+        from stage0_py_utils.agents.conversation_agent import create_conversation_agent
+        from stage0_py_utils.agents.echo_agent import create_echo_agent
         self.register_agent(create_echo_agent(agent_name="echo", echo=self))
         self.register_agent(create_bot_agent(agent_name="bot"))
         self.register_agent(create_conversation_agent(agent_name="conversation"))
