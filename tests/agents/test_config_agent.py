@@ -11,8 +11,8 @@ class TestConfigAgent(unittest.TestCase):
         self.config_agent = create_config_agent(self.mock_bot)
         self.get_config = self.config_agent.actions["get_config"]["function"]
 
-    @patch("stage0_py_utils.create_echo_token")  
-    @patch("stage0_py_utils.create_echo_breadcrumb")  
+    @patch("stage0_py_utils.agents.config_agent.create_echo_token")  
+    @patch("stage0_py_utils.agents.config_agent.create_echo_breadcrumb")  
     @patch("stage0_py_utils.Config.to_dict")
     def test_get_configs_success(self, mock_config_to_dict, mock_create_breadcrumb, mock_create_token):
         """Test successful execution of get_configs action."""
