@@ -8,7 +8,7 @@ class TestLoader(unittest.TestCase):
     """
 
     def setUp(self):
-        self.loader = Loader(input_folder="./test")
+        self.loader = Loader(input_folder="./tests/test_data/evaluate/input_folder")
 
     def tearDown(self):
         pass
