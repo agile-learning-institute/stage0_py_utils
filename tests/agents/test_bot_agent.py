@@ -13,7 +13,7 @@ class TestBotAgent(unittest.TestCase):
         self.add_channel = bot_agent.actions["add_channel"]["function"]
         self.remove_channel = bot_agent.actions["remove_channel"]["function"]
 
-    @patch("stage0_py_utils.echo_utils.token.create_echo_token")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_token")  
     @patch("stage0_py_utils.services.bot_services.BotServices.get_bot")
     def test_get_bot_success(self, mock_get_bot, mock_create_token):
         """Test successful execution of get_bot action."""
@@ -38,8 +38,8 @@ class TestBotAgent(unittest.TestCase):
         mock_create_token.assert_called_once()
         mock_get_bot.assert_called_once_with(bot_id=arguments, token='fake_token')
         self.assertEqual(result, mock_bot_object)
-    
-    @patch("stage0_py_utils.echo_utils.token.create_echo_token")  
+            
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_token")  
     @patch("stage0_py_utils.services.bot_services.BotServices.get_bot")
     def test_get_bot_fail(self, mock_get_bot, mock_create_token):
         """Test failure case for get_bot action."""
@@ -57,7 +57,7 @@ class TestBotAgent(unittest.TestCase):
         mock_get_bot.assert_called_once_with(bot_id=arguments, token='fake_token')
         self.assertEqual(result, "error")
         
-    @patch("stage0_py_utils.echo_utils.token.create_echo_token")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_token")  
     @patch("stage0_py_utils.services.bot_services.BotServices.get_channels")
     def test_get_channels_success(self, mock_get_channels, mock_create_token):
         """Test successful execution of get_bot action."""
@@ -76,7 +76,7 @@ class TestBotAgent(unittest.TestCase):
         mock_get_channels.assert_called_once_with(bot_id=arguments, token='fake_token')
         self.assertEqual(result, mock_channels)
     
-    @patch("stage0_py_utils.echo_utils.token.create_echo_token")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_token")  
     @patch("stage0_py_utils.services.bot_services.BotServices.get_channels")
     def test_get_channels_fail(self, mock_get_channels, mock_create_token):
         """Test failure case for get_bot action."""
@@ -94,8 +94,8 @@ class TestBotAgent(unittest.TestCase):
         mock_get_channels.assert_called_once_with(bot_id=arguments, token='fake_token')
         self.assertEqual(result, "error")
         
-    @patch("stage0_py_utils.echo_utils.token.create_echo_token")  
-    @patch("stage0_py_utils.echo_utils.breadcrumb.create_echo_breadcrumb")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_token")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_breadcrumb")  
     @patch("stage0_py_utils.services.bot_services.BotServices.add_channel")
     def test_add_channel_success(self, mock_add_channel, mock_create_breadcrumb, mock_create_token):
         """Test successful execution of get_bot action."""
@@ -119,8 +119,8 @@ class TestBotAgent(unittest.TestCase):
         mock_add_channel.assert_called_once_with(channel_id='test_channel', bot_id='test_bot_id', token='fake_token', breadcrumb='fake_breadcrumb')
         self.assertEqual(result, mock_channels)
     
-    @patch("stage0_py_utils.echo_utils.token.create_echo_token")  
-    @patch("stage0_py_utils.echo_utils.breadcrumb.create_echo_breadcrumb")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_token")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_breadcrumb")  
     @patch("stage0_py_utils.services.bot_services.BotServices.add_channel")
     def test_add_channel_fail(self, mock_add_channel, mock_create_breadcrumb, mock_create_token):
         """Test failure case for get_bot action."""
@@ -146,8 +146,8 @@ class TestBotAgent(unittest.TestCase):
             token='fake_token', breadcrumb='fake_breadcrumb')
         self.assertEqual(result, "error")
         
-    @patch("stage0_py_utils.echo_utils.token.create_echo_token")  
-    @patch("stage0_py_utils.echo_utils.breadcrumb.create_echo_breadcrumb")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_token")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_breadcrumb")  
     @patch("stage0_py_utils.services.bot_services.BotServices.remove_channel")
     def test_remove_channel_success(self, mock_remove_channel, mock_create_breadcrumb, mock_create_token):
         """Test successful execution of get_bot action."""
@@ -174,8 +174,8 @@ class TestBotAgent(unittest.TestCase):
             token='fake_token', breadcrumb='fake_breadcrumb')
         self.assertEqual(result, mock_channels)
     
-    @patch("stage0_py_utils.echo_utils.token.create_echo_token")  
-    @patch("stage0_py_utils.echo_utils.breadcrumb.create_echo_breadcrumb")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_token")  
+    @patch("stage0_py_utils.agents.bot_agent.create_echo_breadcrumb")  
     @patch("stage0_py_utils.services.bot_services.BotServices.remove_channel")
     def test_remove_channel_fail(self, mock_remove_channel, mock_create_breadcrumb, mock_create_token):
         """Test failure case for get_bot action."""
