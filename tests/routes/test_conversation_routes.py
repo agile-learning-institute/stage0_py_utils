@@ -10,9 +10,9 @@ class TestConversationRoutes(unittest.TestCase):
         self.app.register_blueprint(create_conversation_routes(), url_prefix='/api/conversation')
         self.client = self.app.test_client()
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
-    @patch('stage0_py_utils.ConversationServices.get_conversations')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
+    @patch('stage0_py_utils.services.conversation_services.ConversationServices.get_conversations')
     def test_get_conversations_success(self, mock_get_conversations, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/conversation for successful response."""
         # Arrange
@@ -31,9 +31,9 @@ class TestConversationRoutes(unittest.TestCase):
         mock_create_breadcrumb.assert_called_once_with(mock_token)
         mock_get_conversations.assert_called_once_with(token=mock_token)
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
-    @patch('stage0_py_utils.ConversationServices.get_conversations')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
+    @patch('stage0_py_utils.services.conversation_services.ConversationServices.get_conversations')
     def test_get_conversations_failure(self, mock_get_conversations, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/conversation when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
@@ -45,9 +45,9 @@ class TestConversationRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.json, {"error": "A processing error occurred"})
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
-    @patch('stage0_py_utils.ConversationServices.get_conversation')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
+    @patch('stage0_py_utils.services.conversation_services.ConversationServices.get_conversation')
     def test_get_conversation_success(self, mock_get_conversation, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/conversation/{id} for successful response."""
         # Arrange
@@ -67,9 +67,9 @@ class TestConversationRoutes(unittest.TestCase):
         mock_create_breadcrumb.assert_called_once_with(mock_token)
         mock_get_conversation.assert_called_once_with(channel_id='conversation1', token=mock_token, breadcrumb={'breadcrumb': 'mock_breadcrumb'})
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
-    @patch('stage0_py_utils.ConversationServices.get_conversation')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
+    @patch('stage0_py_utils.services.conversation_services.ConversationServices.get_conversation')
     def test_get_conversation_failure(self, mock_get_conversation, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/conversation/{id} when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
@@ -81,9 +81,9 @@ class TestConversationRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.json, {"error": "A processing error occurred"})
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
-    @patch('stage0_py_utils.ConversationServices.update_conversation', new_callable=MagicMock)
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
+    @patch('stage0_py_utils.services.conversation_services.ConversationServices.update_conversation', new_callable=MagicMock)
     def test_update_conversation_success(self, mock_update_conversation, mock_create_breadcrumb, mock_create_token):
         """Test PATCH /api/conversation/{id} for successful response."""
         # Arrange
@@ -108,9 +108,9 @@ class TestConversationRoutes(unittest.TestCase):
             data=patch_data, 
             token=mock_token, breadcrumb=mock_breadcrumb)
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
-    @patch('stage0_py_utils.ConversationServices.update_conversation', new_callable=MagicMock)
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
+    @patch('stage0_py_utils.services.conversation_services.ConversationServices.update_conversation', new_callable=MagicMock)
     def test_update_conversation_failure(self, mock_update_conversation, mock_create_breadcrumb, mock_create_token):
         """Test PATCH /api/conversation/{id} when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
@@ -122,9 +122,9 @@ class TestConversationRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.json, {"error": "A processing error occurred"})
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
-    @patch('stage0_py_utils.ConversationServices.add_message')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
+    @patch('stage0_py_utils.services.conversation_services.ConversationServices.add_message')
     def test_add_message_success(self, mock_add_message, mock_create_breadcrumb, mock_create_token):
         """Test POST /api/conversation/{channel_id}/message for successful response."""
         # Arrange
@@ -155,9 +155,9 @@ class TestConversationRoutes(unittest.TestCase):
             breadcrumb=mock_breadcrumb
         )
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
-    @patch('stage0_py_utils.ConversationServices.add_message')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
+    @patch('stage0_py_utils.services.conversation_services.ConversationServices.add_message')
     def test_add_message_failure(self, mock_add_message, mock_create_breadcrumb, mock_create_token):
         """Test POST /api/conversation/{channel_id}/message when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
