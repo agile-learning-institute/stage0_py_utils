@@ -13,8 +13,8 @@ class TestEchoRoutes(unittest.TestCase):
         self.app.register_blueprint(create_echo_routes(self.mock_echo), url_prefix='/api/echo')
         self.client = self.app.test_client()
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
+    @patch('stage0_py_utils.routes.echo_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.echo_routes.create_flask_breadcrumb')
     def test_get_agents_success(self, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/echo when an exception occurs."""
         mock_token = {"user_id": "mock_user"}
@@ -30,8 +30,8 @@ class TestEchoRoutes(unittest.TestCase):
         mock_create_breadcrumb.assert_called_once()
         self.mock_echo.get_agents.assert_called_once()
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
+    @patch('stage0_py_utils.routes.echo_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.echo_routes.create_flask_breadcrumb')
     def test_get_agents_failure(self, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/echo when an exception occurs."""
         mock_create_token.side_effect = Exception("Token error")
@@ -46,8 +46,8 @@ class TestEchoRoutes(unittest.TestCase):
         mock_create_breadcrumb.assert_not_called()
         self.mock_echo.get_agents.assert_not_called()
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
+    @patch('stage0_py_utils.routes.echo_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.echo_routes.create_flask_breadcrumb')
     def test_get_action_success(self, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/echo/{agent}/{action} for successful response."""
         mock_token = {"user_id": "mock_user"}
@@ -65,8 +65,8 @@ class TestEchoRoutes(unittest.TestCase):
         mock_create_breadcrumb.assert_called_once_with(mock_token)
         self.mock_echo.get_action.assert_called_once()
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
+    @patch('stage0_py_utils.routes.echo_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.echo_routes.create_flask_breadcrumb')
     def test_get_action_failure(self, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/echo/<name>/<name> when an exception occurs."""
         mock_create_token.return_value = {"user_id": "mock_user"}
