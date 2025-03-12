@@ -9,9 +9,9 @@ class TestConfigRoutes(unittest.TestCase):
         self.app = Flask(__name__)
         self.app.register_blueprint(create_config_routes(), url_prefix='/api/config')
         self.client = self.app.test_client()
-
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
+            
+    @patch('stage0_py_utils.routes.config_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.config_routes.create_flask_breadcrumb')
     def test_get_config_success(self, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/config for successful response."""
         # Arrange
@@ -32,8 +32,8 @@ class TestConfigRoutes(unittest.TestCase):
         mock_create_token.assert_called_once()
         mock_create_breadcrumb.assert_called_once_with(mock_token)
 
-    @patch('stage0_py_utils.create_flask_token')
-    @patch('stage0_py_utils.create_flask_breadcrumb')
+    @patch('stage0_py_utils.routes.config_routes.create_flask_token')
+    @patch('stage0_py_utils.routes.config_routes.create_flask_breadcrumb')
     def test_get_config_failure(self, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/config when an exception is raised."""
         mock_create_token.side_effect = Exception("Token error")
