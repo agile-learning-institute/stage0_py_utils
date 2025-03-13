@@ -51,8 +51,8 @@ class Evaluator:
             "grader": self.grade_prompt_files
         }
         for name, conversation in self.conversations.items():
+            logger.info(f"{self.name} Grading {name}")
             grades[name] = self.grade_conversation(conversation)
-            logger.info(f"{self.name} Graded {name}")
         return grades
 
     def grade_conversation(self, conversation=[]):
