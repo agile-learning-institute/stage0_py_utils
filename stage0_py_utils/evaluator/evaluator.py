@@ -41,7 +41,7 @@ class Evaluator:
         self.prompt_files = prompt_files
         self.prompt = prompt
         self.conversations = conversations  
-        logger.info(f"Evaluator {self.name} Initialized as {self}")
+        logger.info(f"Evaluator {self.name} Initialized")
 
     def evaluate(self):
         """Evaluate the conversations and report the grades"""
@@ -52,7 +52,6 @@ class Evaluator:
         }
         for name, conversation in self.conversations.items():
             grades[name] = self.grade_conversation(conversation)
-            logger.info(f"Graded {name} as {grades[name]}")
         return grades
 
     def grade_conversation(self, conversation=[]):
@@ -72,6 +71,8 @@ class Evaluator:
                     "latency":latency, 
                     "grade":grade
                 })
+                logger.info(f"Graded Answer {len(grades)}")
+        logger.info(f"Graded {self.name} with {len(conversation)} messages")
         return grades
         
     def grade_reply(self, expected=None, given=None):
@@ -95,7 +96,8 @@ class Evaluator:
         # use ollama.chat(model=self.model, messages=messages)
         # return a LLM Message dict (role, content)
         model = model or self.model
-        reply = ollama.chat(model=self.model, messages=messages)
+        logger.debug(f"Chat Request model {model}, message: {messages[len(messages)-1]}")
+        reply = ollama.chat(model=model, messages=messages)
         logger.debug(f"Chat reply {reply.message.content}")
         latency = reply.total_duration
         response = {

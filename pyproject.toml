@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stage0_py_utils"
-version = "0.1.0"
+version = "0.1.1"
 description = "A utility package for stage0 microservices"
 authors = [{name = "Your Name", email = "your.email@example.com"}]
 license = {text = "MIT"}
@@ -13,7 +13,8 @@ requires-python = ">=3.8"
 dependencies = [
     "flask",
     "pymongo",
-    "requests"
+    "discord",
+    "ollama"
 ]
 
 [project.optional-dependencies]

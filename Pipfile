@@ -3,6 +3,9 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[scripts]
+build = "sh -c 'python3 -m build'"
+
 [packages]
 flask = "*"
 pymongo = "*"

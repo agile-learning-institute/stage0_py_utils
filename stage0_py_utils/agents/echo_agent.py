@@ -18,7 +18,7 @@ def create_echo_agent(agent_name, echo=None):
             token = create_echo_token()
             breadcrumb = create_echo_breadcrumb(token)
             agents = echo.get_agents()
-            logger.info(f"get_agents Success {breadcrumb}")
+            logger.info(f"get_agents Success")
             return agents
         except Exception as e:
             logger.warning(f"get_agents Error has occurred: {e}")
@@ -46,7 +46,7 @@ def create_echo_agent(agent_name, echo=None):
             agent = arguments["agent"]
             action = arguments["action"]
             action_info = echo.get_action(agent_name=agent, action_name=action)
-            logger.info(f"get_action Success {breadcrumb}")
+            logger.info(f"get_action Success")
             return action_info
         except Exception as e:
             logger.warning(f"get_action Error has occurred: {e}")
