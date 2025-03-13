@@ -52,6 +52,7 @@ class Evaluator:
         }
         for name, conversation in self.conversations.items():
             grades[name] = self.grade_conversation(conversation)
+            logger.info(f"{self.name} Graded {name}")
         return grades
 
     def grade_conversation(self, conversation=[]):
@@ -72,7 +73,6 @@ class Evaluator:
                     "grade":grade
                 })
                 logger.info(f"Graded Answer {len(grades)}")
-        logger.info(f"Graded {self.name} with {len(conversation)} messages")
         return grades
         
     def grade_reply(self, expected=None, given=None):
