@@ -19,7 +19,7 @@ def create_conversation_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             conversations = ConversationServices.get_conversations(token=token)
-            logger.debug(f"get_conversations Success {breadcrumb}")
+            logger.info(f"get_conversations Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(conversations), 200
         except Exception as e:
             logger.warning(f"get_conversations Error has occurred: {e}")
@@ -32,7 +32,7 @@ def create_conversation_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             conversation = ConversationServices.get_conversation(channel_id=channel_id, token=token, breadcrumb=breadcrumb)
-            logger.debug(f"get_conversation Success {breadcrumb}")
+            logger.info(f"get_conversation Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(conversation), 200
         except Exception as e:
             logger.warning(f"get_conversation Error has occurred: {e}")
@@ -46,7 +46,7 @@ def create_conversation_routes():
             breadcrumb = create_flask_breadcrumb(token)
             data = request.get_json()
             conversation = ConversationServices.update_conversation(channel_id=channel_id, data=data, token=token, breadcrumb=breadcrumb)
-            logger.debug(f"update_conversation Successful {breadcrumb}")
+            logger.info(f"update_conversation Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(conversation), 200
         except Exception as e:
             logger.warning(f"update_conversation processing error occurred {e}")
@@ -60,7 +60,7 @@ def create_conversation_routes():
             breadcrumb = create_flask_breadcrumb(token)
             message = Message(llm_message=request.get_json(), user=token["user_id"])
             messages = ConversationServices.add_message(channel_id=channel_id, message=message.as_llm_message(), token=token, breadcrumb=breadcrumb)
-            logger.debug(f"add_message Successful {breadcrumb}")
+            logger.info(f"add_message Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(messages), 200
         except Exception as e:
             logger.warning(f"add_message processing error occurred {e}")
@@ -73,7 +73,7 @@ def create_conversation_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             messages = ConversationServices.reset_conversation(channel_id=channel_id, token=token, breadcrumb=breadcrumb)
-            logger.debug(f"reset_conversation successful {breadcrumb}")
+            logger.info(f"reset_conversation Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(messages), 200
         except Exception as e:
             logger.warning(f"reset_conversation processing error occurred {e}")
@@ -89,7 +89,7 @@ def create_conversation_routes():
                 channel_id=channel_id, 
                 named_conversation=named_conversation, 
                 token=token, breadcrumb=breadcrumb)
-            logger.debug(f"load_conversation successful {breadcrumb}")
+            logger.info(f"load_conversation Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(messages), 200
         except Exception as e:
             logger.warning(f"load_conversation processing error occurred {e}")
@@ -109,7 +109,7 @@ def create_conversation_routes():
                 channel_id=channel_id, 
                 csv_data=data, 
                 token=token, breadcrumb=breadcrumb)
-            logger.debug(f"initialize_conversation successful {breadcrumb}")
+            logger.info(f"initialize_conversation Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(messages), 200
         except Exception as e:
             logger.warning(f"initialize_conversation processing error occurred {e}")

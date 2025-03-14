@@ -18,8 +18,8 @@ def create_echo_routes(echo=None):
         try:
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
-            logger.debug(f"get_agents Success {breadcrumb}")
             agents = echo.get_agents()
+            logger.info(f"get_agents Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(agents), 200
         except Exception as e:
             logger.warning(f"get_agents {type(e)} exception has occurred: {e}")
@@ -32,7 +32,7 @@ def create_echo_routes(echo=None):
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             action = echo.get_action(agent_name=agent, action_name=action)
-            logger.debug(f"get_action Success {breadcrumb}")
+            logger.info(f"get_action Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(action), 200
         except Exception as e:
             logger.warning(f"get_action {type(e)} exception has occurred: {e}")
@@ -46,7 +46,7 @@ def create_echo_routes(echo=None):
             breadcrumb = create_flask_breadcrumb(token)
             arguments = request.get_json()
             action = echo.llm_handler.handle_message(channel=channel_id, user=arguments["user"], text=arguments["text"])
-            logger.debug(f"handle_message Success {breadcrumb}")
+            logger.info(f"handle_message Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
             return jsonify(action), 200
         except Exception as e:
             logger.warning(f"handle_message {type(e)} exception has occurred: {e}")

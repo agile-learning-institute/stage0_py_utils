@@ -16,7 +16,7 @@ def create_config_agent(agent_name):
             token = create_echo_token()
             breadcrumb = create_echo_breadcrumb(token)
             config = Config.get_instance()
-            logger.info(f"get_config Success")
+            logger.info(f"remove_channel Successful {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")            
             return config.to_dict(token=token)
         except Exception as e:
             logger.warning(f"get_config Error has occurred: {e}")

@@ -52,7 +52,7 @@ def create_conversation_agent(agent_name):
             token = create_echo_token()
             breadcrumb = create_echo_breadcrumb(token)
             conversations = ConversationServices.get_conversations(token=token)
-            logger.info(f"Get conversations Success")
+            logger.info(f"get_conversations Successful {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")            
             return conversations
         except Exception as e:
             logger.warning(f"Get conversations Error has occurred: {e}")
@@ -85,7 +85,7 @@ def create_conversation_agent(agent_name):
             token = create_echo_token()
             breadcrumb = create_echo_breadcrumb(token)
             conversation = ConversationServices.get_conversation(channel_id=arguments, token=token, breadcrumb=breadcrumb)
-            logger.info(f"Get conversation Success")
+            logger.info(f"get_conversation Successful {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")            
             return conversation
         except Exception as e:
             logger.warning(f"Get conversation Error has occurred: {e}")
@@ -109,7 +109,7 @@ def create_conversation_agent(agent_name):
                 channel_id=arguments["channel_id"], 
                 conversation=arguments, 
                 token=token, breadcrumb=breadcrumb)
-            logger.info(f"Update conversation Successful")
+            logger.info(f"update_conversation Successful {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")            
             return conversation
         except Exception as e:
             logger.warning(f"Update conversation Error has occurred {e}")
@@ -130,7 +130,7 @@ def create_conversation_agent(agent_name):
                 channel_id=arguments["channel_id"],
                 message=arguments["message"], 
                 token=token, breadcrumb=breadcrumb)
-            logger.info(f"Add Message Successful")
+            logger.info(f"add_message Successful {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")            
             return messages
         except Exception as e:
             logger.warning(f"Add Message Error has occurred {e}")
@@ -169,7 +169,7 @@ def create_conversation_agent(agent_name):
             conversation = ConversationServices.reset_conversation(
                 channel_id=arguments,
                 token=token, breadcrumb=breadcrumb)
-            logger.info(f"Reset conversation Successful")
+            logger.info(f"reset_conversation Successful {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")            
             return conversation
         except Exception as e:
             logger.warning(f"Reset Conversation Error has occurred {e}")
@@ -193,7 +193,7 @@ def create_conversation_agent(agent_name):
                 channel_id=arguments["channel_id"],
                 named_conversation=arguments["named_conversation"],
                 token=token, breadcrumb=breadcrumb)
-            logger.info(f"load_personality Successful")
+            logger.info(f"load_personality Successful {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")            
             return conversation
         except Exception as e:
             logger.warning(f"load_personality Error has occurred {e}")
