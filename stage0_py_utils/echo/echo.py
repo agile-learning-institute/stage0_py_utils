@@ -153,8 +153,8 @@ class Echo:
 
         if agent_name not in self.agents:
             logger.debug(f"Agent {agent_name} not found")
-            return ""  # Silence for unknown agents
-
+            return f"Unknown Agent {agent_name}. Available agents are: {self.agents.keys}"
+        
         agent = self.agents[agent_name]
 
         if action_name not in agent.get_actions():

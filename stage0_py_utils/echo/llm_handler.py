@@ -78,9 +78,8 @@ class LLMHandler:
         Helper function to add a message to the conversation
         Uses the /conversation/add_message agent action
         
-        :param from_role: Who is this message in the conversation "from" - system | agent | user
-        :param to_role: Who is this message "to" - internal (agents) | external (chat)
-        :param content: The message itself
+        :param channel: The channel_id for the conversation
+        :param message: a Echo Message object
         :return: The full conversation (list of messages)
         """
         arguments = json.dumps({"channel_id": channel, "message":message.as_llm_message()}, separators=(',', ':'))
