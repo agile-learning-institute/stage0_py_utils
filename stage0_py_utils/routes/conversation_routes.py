@@ -95,5 +95,25 @@ def create_conversation_routes():
             logger.warning(f"load_conversation processing error occurred {e}")
             return jsonify({"error": "A processing error occurred"}), 500
 
-    logger.info("Conversation Flask Routes Registered")
+    # POST /api/conversation/{channel_id}/initialize - Load all the messages from a csv file
+    @conversation_routes.route('/<string:channel_id>/initialize', methods=['POST'])
+    def initialize_conversation(channel_id):
+        try:
+            token = create_flask_token()
+            breadcrumb = create_flask_breadcrumb(token)
+            data = request.get_data(as_text=True)
+            ConversationServices.reset_conversation(
+                channel_id=channel_id, 
+                token=token, breadcrumb=breadcrumb)
+            messages = ConversationServices.load_given_conversation(
+                channel_id=channel_id, 
+                csv_data=data, 
+                token=token, breadcrumb=breadcrumb)
+            logger.debug(f"initialize_conversation successful {breadcrumb}")
+            return jsonify(messages), 200
+        except Exception as e:
+            logger.warning(f"initialize_conversation processing error occurred {e}")
+            return jsonify({"error": "A processing error occurred"}), 500
+
+    logger.warning(f"TypeOf initialize_conversation {type(initialize_conversation)}")
     return conversation_routes

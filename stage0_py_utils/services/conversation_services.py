@@ -1,11 +1,18 @@
+import csv
+from io import StringIO
 from stage0_py_utils.mongo_utils.mongo_io import MongoIO
 from stage0_py_utils.config.config import Config
+from stage0_py_utils.echo.message import Message
 from datetime import datetime
 import logging
 
 logger = logging.getLogger(__name__)
 
 class ConversationServices:
+    CYAN = "\033[36m "
+    BLUE = "\033[94m"
+    RESET = "\033[0m"        
+
     @staticmethod 
     def _check_user_access(token):
         """Role Based Access Control logic"""
@@ -118,12 +125,7 @@ class ConversationServices:
         reply = mongo.update_document(config.CONVERSATION_COLLECTION_NAME, match=match, set_data=set_data, push_data=push_data)
         messages = reply["messages"]
         
-        # Log this message in a way that stands out using ASCII Color codes
-        CYAN = "\033[36m "
-        BLUE = "\033[94m"
-        RESET = "\033[0m"        
-        logger.info(f"{BLUE}Message added to:{CYAN}{channel_id}{BLUE} with role:{CYAN}{message["role"]}{BLUE}, content:{CYAN}{message["content"][:60]}{RESET}")
-
+        ConversationServices.colorful_log(["Message added to:", channel_id, " with role:", message["role"], " content:", message["content"][:60]])
         return messages
 
     @staticmethod
@@ -146,16 +148,12 @@ class ConversationServices:
         }
         reply = mongo.update_document(config.CONVERSATION_COLLECTION_NAME, match=match, set_data=set_data) or "Nothing to reset"
 
-        # Log this event in a way that stands out using ASCII Color codes
-        CYAN = "\033[36m "
-        BLUE = "\033[94m"
-        RESET = "\033[0m"        
-        logger.info(f"{BLUE}Conversation:{CYAN}{channel_id}{BLUE} has been reset{RESET}")
+        ConversationServices.colorful_log(["Conversation:", channel_id, " has been reset"])
         return reply
 
     @staticmethod
     def load_named_conversation(channel_id=None, named_conversation=None, token=None, breadcrumb=None):
-        """Move the active conversation to full and set the version string"""
+        """Copy the messages from the named conversation to the channels conversation."""
         ConversationServices._check_user_access(token)
         config = Config.get_instance()
         mongo = MongoIO.get_instance()
@@ -187,10 +185,47 @@ class ConversationServices:
         push_data = {"messages": {"$each": source_conversation["messages"]}}
         target_conversation = mongo.update_document(config.CONVERSATION_COLLECTION_NAME, match=match, set_data=set_data, push_data=push_data)
 
-        # Log this message in a way that stands out using ASCII Color codes
-        CYAN = "\033[36m "
-        BLUE = "\033[94m"
-        RESET = "\033[0m"        
-        logger.info(f"{BLUE}Conversation:{CYAN}{named_conversation}{BLUE} has loaded {CYAN}{len(source_conversation["messages"])}{BLUE} messages into {channel_id}{RESET}")
+        ConversationServices.colorful_log(["Conversation:", named_conversation, " has loaded ", str(len(source_conversation["messages"])), " messages into ", channel_id])
         return target_conversation
+
+    @staticmethod
+    def load_given_conversation(channel_id=None, csv_data=None, token=None, breadcrumb=None):
+        """Copy the messages from the csv_data to the channels conversation."""
+        ConversationServices._check_user_access(token)
+        config = Config.get_instance()
+        mongo = MongoIO.get_instance()
+        
+        # Make sure the target conversation exists first. 
+        target_conversation = ConversationServices.get_conversation(channel_id=channel_id, token=token, breadcrumb=breadcrumb)
+        match = {"$and": [
+            {"channel_id": channel_id},
+            {"version": config.LATEST_VERSION},
+            {"status": config.ACTIVE_STATUS}
+        ]}
+        set_data = {
+            "last_saved": breadcrumb
+        }
+        
+        # Parse the CSV data and load messages
+        reader = csv.DictReader(StringIO(csv_data), quotechar='"', skipinitialspace=True)
+        lines = [row for i, row in enumerate(reader) if i > 0]
+        messages = [
+            Message(role=line["role"], user=line["from"], dialog=line["to"], text=line["text"]).as_llm_message()
+            for line in lines
+        ]
+        
+        # Update the database
+        push_data = {"messages": {"$each": messages}}
+        target_conversation = mongo.update_document(config.CONVERSATION_COLLECTION_NAME, match=match, set_data=set_data, push_data=push_data)
+
+        ConversationServices.colorful_log(["Conversation:", channel_id, " has loaded ", str(len(messages)), " messages from the provided csv data"])
+        return target_conversation
+
+    @staticmethod
+    def colorful_log(strings=None):
+        """Logs a list of strings with alternating BLUE and CYAN colors."""
+        colors = [ConversationServices.BLUE, ConversationServices.CYAN]
+        colored_message = "".join(f"{colors[i % 2]}{msg}" for i, msg in enumerate(strings)) + ConversationServices.RESET
+        logging.info(colored_message)
+        pass
 
