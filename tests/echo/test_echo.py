@@ -101,7 +101,7 @@ class TestEcho(unittest.TestCase):
         command = "/unknown_agent/test_action/{\"key\": \"value\"}"
         result = self.echo.handle_command(command)
 
-        self.assertEqual(result, "")
+        self.assertEqual(result[:50], "Unknown Agent unknown_agent. Available agents are:")
 
     def test_handle_command_unknown_action(self):
         """Ensure an unknown action returns available actions."""
