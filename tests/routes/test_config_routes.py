@@ -17,8 +17,8 @@ class TestConfigRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        mock_breadcrumb = {"breadcrumb": "mock_breadcrumb"}
-        mock_create_breadcrumb.return_value = mock_breadcrumb
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
 
         # Act
         response = self.client.get('/api/config')
@@ -37,7 +37,8 @@ class TestConfigRoutes(unittest.TestCase):
     def test_get_config_failure(self, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/config when an exception is raised."""
         mock_create_token.side_effect = Exception("Token error")
-        mock_create_breadcrumb.return_value = {"breadcrumb": "mock_breadcrumb"}
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
 
         response = self.client.get('/api/config')
 
