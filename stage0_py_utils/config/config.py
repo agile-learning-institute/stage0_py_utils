@@ -80,6 +80,7 @@ class Config:
 
             # Initialize configuration
             self.initialize()
+            self.configure_logging()
 
     def initialize(self):
         """Initialize configuration values."""
@@ -106,10 +107,32 @@ class Config:
         for key, default in self.config_json_secrets.items():
             value = json.loads(self._get_config_value(key, default, True))
             setattr(self, key, value)
+            
+        return
 
-        # Set Logging Level
-        logging.basicConfig(level=self.LOGGING_LEVEL)
+    def configure_logging(self):
+        # Make sure we have a valid logging level
+        self.LOGGING_LEVEL = getattr(logging, self.LOGGING_LEVEL, logging.INFO)
+        
+        # Reset logging handlers
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
+
+        # Configure logger
+        logging.basicConfig(
+            level=self.LOGGING_LEVEL,
+            format="%(asctime)s - %(levelname)s - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S"
+        )
+
+        # Suppress noisy http logging
+        logging.getLogger("httpcore").setLevel(logging.WARNING)  
+        logging.getLogger("httpx").setLevel(logging.WARNING)  
+
+        # Log configuration
         logger.info(f"Configuration Initialized: {self.config_items}")
+        
+        return
             
     def _get_config_value(self, name, default_value, is_secret):
         """Retrieve a configuration value, first from a file, then environment variable, then default."""
