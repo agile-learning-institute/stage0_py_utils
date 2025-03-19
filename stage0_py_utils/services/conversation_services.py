@@ -226,6 +226,6 @@ class ConversationServices:
         """Logs a list of strings with alternating BLUE and CYAN colors."""
         colors = [ConversationServices.BLUE, ConversationServices.CYAN]
         colored_message = "".join(f"{colors[i % 2]}{msg}" for i, msg in enumerate(strings)) + ConversationServices.RESET
-        logging.info(colored_message)
+        logger.info(colored_message)
         pass
 
