@@ -21,6 +21,8 @@ class Config:
             # Declare instance variables to support IDE code assist
             self.BUILT_AT = ''
             self.CONFIG_FOLDER = ''
+            self.INPUT_FOLDER = ''
+            self.OUTPUT_FOLDER = ''
             self.LOGGING_LEVEL = ''
             self.LATEST_VERSION = ''
             self.ACTIVE_STATUS = ''
@@ -48,6 +50,8 @@ class Config:
             self.config_strings = {
                 "BUILT_AT": "LOCAL",
                 "CONFIG_FOLDER": "./",
+                "INPUT_FOLDER": "/input",
+                "OUTPUT_FOLDER": "/output",
                 "LOGGING_LEVEL": "INFO", 
                 "LATEST_VERSION": "latest",
                 "ACTIVE_STATUS": "active",
@@ -121,7 +125,7 @@ class Config:
         # Configure logger
         logging.basicConfig(
             level=self.LOGGING_LEVEL,
-            format="%(asctime)s - %(levelname)s - %(message)s",
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S"
         )
 
