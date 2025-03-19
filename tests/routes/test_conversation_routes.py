@@ -18,7 +18,8 @@ class TestConversationRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        mock_create_breadcrumb.return_value = {"breadcrumb": "mock_breadcrumb"}
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversations.return_value = [{"id": "conversation1", "name": "Test Conversation"}]
 
         # Act
@@ -37,7 +38,8 @@ class TestConversationRoutes(unittest.TestCase):
     def test_get_conversations_failure(self, mock_get_conversations, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/conversation when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        mock_create_breadcrumb.return_value = {"breadcrumb": "mock_breadcrumb"}
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversations.side_effect = Exception("Database error")
 
         response = self.client.get('/api/conversation')
@@ -53,7 +55,8 @@ class TestConversationRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        mock_create_breadcrumb.return_value = {"breadcrumb": "mock_breadcrumb"}
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_conversation = {"id": "conversation1", "name": "Test Conversation"}
         mock_get_conversation.return_value = mock_conversation
 
@@ -65,7 +68,7 @@ class TestConversationRoutes(unittest.TestCase):
         self.assertEqual(response.json, mock_conversation)
         mock_create_token.assert_called_once()
         mock_create_breadcrumb.assert_called_once_with(mock_token)
-        mock_get_conversation.assert_called_once_with(channel_id='conversation1', token=mock_token, breadcrumb={'breadcrumb': 'mock_breadcrumb'})
+        mock_get_conversation.assert_called_once_with(channel_id='conversation1', token=mock_token, breadcrumb=fake_breadcrumb)
 
     @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
     @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
@@ -73,7 +76,8 @@ class TestConversationRoutes(unittest.TestCase):
     def test_get_conversation_failure(self, mock_get_conversation, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/conversation/{id} when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        mock_create_breadcrumb.return_value = {"breadcrumb": "mock_breadcrumb"}
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversation.side_effect = Exception("Database error")
 
         response = self.client.get('/api/conversation/conversation1')
@@ -89,8 +93,8 @@ class TestConversationRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        mock_breadcrumb = {"breadcrumb": "mock_breadcrumb"}
-        mock_create_breadcrumb.return_value = mock_breadcrumb
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_conversation = {"id": "conversation1", "foo": "bar"}
         mock_update_conversation.return_value = mock_conversation
         patch_data = {"foo": "bar"}
@@ -106,7 +110,7 @@ class TestConversationRoutes(unittest.TestCase):
         mock_update_conversation.assert_called_once_with(
             channel_id='conversation1', 
             data=patch_data, 
-            token=mock_token, breadcrumb=mock_breadcrumb)
+            token=mock_token, breadcrumb=fake_breadcrumb)
 
     @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
     @patch('stage0_py_utils.routes.conversation_routes.create_flask_breadcrumb')
@@ -114,7 +118,8 @@ class TestConversationRoutes(unittest.TestCase):
     def test_update_conversation_failure(self, mock_update_conversation, mock_create_breadcrumb, mock_create_token):
         """Test PATCH /api/conversation/{id} when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        mock_create_breadcrumb.return_value = {"breadcrumb": "mock_breadcrumb"}
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_update_conversation.side_effect = Exception("Database error")
 
         response = self.client.patch('/api/conversation/conversation1', json={})
@@ -130,8 +135,8 @@ class TestConversationRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        mock_breadcrumb = {"breadcrumb": "mock_breadcrumb"}
-        mock_create_breadcrumb.return_value = mock_breadcrumb
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_new_message = {"role": "user", "content": "message3"}
         mock_new_parsed_message = {"role": "user", "content": "From:mock_user To:group message3"}
         mock_messages = [{"role": "user", "content": "message1"}, {"role": "user", "content": "message2"},{"role": "user", "content": "message3"}]
@@ -152,7 +157,7 @@ class TestConversationRoutes(unittest.TestCase):
             channel_id='conversation1', 
             message=mock_new_parsed_message, 
             token=mock_token, 
-            breadcrumb=mock_breadcrumb
+            breadcrumb=fake_breadcrumb
         )
 
     @patch('stage0_py_utils.routes.conversation_routes.create_flask_token')
@@ -161,7 +166,8 @@ class TestConversationRoutes(unittest.TestCase):
     def test_add_message_failure(self, mock_add_message, mock_create_breadcrumb, mock_create_token):
         """Test POST /api/conversation/{channel_id}/message when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        mock_create_breadcrumb.return_value = {"breadcrumb": "mock_breadcrumb"}
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_add_message.side_effect = Exception("Database error")
         mock_new_message = "message3"
 

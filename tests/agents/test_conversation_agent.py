@@ -22,7 +22,8 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        mock_create_echo_breadcrumb.return_value = "fake_breadcrumb"
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversations.return_value = "conversations_list"
         
         # Call function
@@ -43,7 +44,8 @@ class TestConversationAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        mock_create_echo_breadcrumb.return_value = "fake_breadcrumb"
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversations.side_effect = Exception("Test Exception")
         
         # Call function
@@ -64,7 +66,8 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        mock_create_echo_breadcrumb.return_value = "fake_breadcrumb"
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversation.return_value = "a_conversation"
         
         # Call function
@@ -74,7 +77,7 @@ class TestConversationAgent(unittest.TestCase):
         # Assertions
         mock_create_echo_token.assert_called_once()
         mock_create_echo_breadcrumb.assert_called_once_with("fake_token")
-        mock_get_conversation.assert_called_once_with(channel_id=arguments, token="fake_token", breadcrumb='fake_breadcrumb')
+        mock_get_conversation.assert_called_once_with(channel_id=arguments, token="fake_token", breadcrumb=fake_breadcrumb)
         self.assertEqual(result, "a_conversation")
     
     @patch("stage0_py_utils.agents.conversation_agent.create_echo_token")  
@@ -85,7 +88,8 @@ class TestConversationAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        mock_create_echo_breadcrumb.return_value = "fake_breadcrumb"
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversation.side_effect = Exception("Test Exception")
         
         # Call function
@@ -95,7 +99,7 @@ class TestConversationAgent(unittest.TestCase):
         # Assertions
         mock_create_echo_token.assert_called_once()
         mock_create_echo_breadcrumb.assert_called_once_with("fake_token")
-        mock_get_conversation.assert_called_once_with(channel_id=arguments, token="fake_token", breadcrumb='fake_breadcrumb')
+        mock_get_conversation.assert_called_once_with(channel_id=arguments, token="fake_token", breadcrumb=fake_breadcrumb)
         self.assertEqual(result, "error")
                 
     @patch("stage0_py_utils.agents.conversation_agent.create_echo_token")  
@@ -106,7 +110,8 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        mock_create_echo_breadcrumb.return_value = "fake_breadcrumb"
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_update_conversation.return_value = "a_conversation"
         
         # Call function
@@ -119,7 +124,7 @@ class TestConversationAgent(unittest.TestCase):
         # Assertions
         mock_create_echo_token.assert_called_once()
         mock_create_echo_breadcrumb.assert_called_once_with("fake_token")
-        mock_update_conversation.assert_called_once_with(channel_id=arguments["channel_id"], conversation=arguments, token="fake_token", breadcrumb="fake_breadcrumb")
+        mock_update_conversation.assert_called_once_with(channel_id=arguments["channel_id"], conversation=arguments, token="fake_token", breadcrumb=fake_breadcrumb)
         self.assertEqual(result, "a_conversation")
     
     @patch("stage0_py_utils.agents.conversation_agent.create_echo_token")  
@@ -130,7 +135,8 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        mock_create_echo_breadcrumb.return_value = "fake_breadcrumb"
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_update_conversation.side_effect = Exception("Test Exception")
         
         # Call function
@@ -143,7 +149,7 @@ class TestConversationAgent(unittest.TestCase):
         # Assertions
         mock_create_echo_token.assert_called_once()
         mock_create_echo_breadcrumb.assert_called_once_with("fake_token")
-        mock_update_conversation.assert_called_once_with(channel_id=arguments["channel_id"], conversation=arguments, token="fake_token", breadcrumb="fake_breadcrumb")
+        mock_update_conversation.assert_called_once_with(channel_id=arguments["channel_id"], conversation=arguments, token="fake_token", breadcrumb=fake_breadcrumb)
         self.assertEqual(result, "error")
                 
     @patch("stage0_py_utils.agents.conversation_agent.create_echo_token")  
@@ -154,7 +160,8 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        mock_create_echo_breadcrumb.return_value = "fake_breadcrumb"
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_add_message.return_value = "array of messages"
         
         # Call function
@@ -167,7 +174,7 @@ class TestConversationAgent(unittest.TestCase):
         # Assertions
         mock_create_echo_token.assert_called_once()
         mock_create_echo_breadcrumb.assert_called_once_with("fake_token")
-        mock_add_message.assert_called_once_with(channel_id=arguments["channel_id"], message=arguments["message"], token="fake_token", breadcrumb="fake_breadcrumb")
+        mock_add_message.assert_called_once_with(channel_id=arguments["channel_id"], message=arguments["message"], token="fake_token", breadcrumb=fake_breadcrumb)
         self.assertEqual(result, "array of messages")
     
     @patch("stage0_py_utils.agents.conversation_agent.create_echo_token")  
@@ -178,7 +185,8 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        mock_create_echo_breadcrumb.return_value = "fake_breadcrumb"
+        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_add_message.side_effect = Exception("Test Exception")
         
         # Call function
@@ -191,7 +199,7 @@ class TestConversationAgent(unittest.TestCase):
         # Assertions
         mock_create_echo_token.assert_called_once()
         mock_create_echo_breadcrumb.assert_called_once_with("fake_token")
-        mock_add_message.assert_called_once_with(channel_id=arguments["channel_id"], message=arguments["message"], token="fake_token", breadcrumb="fake_breadcrumb")
+        mock_add_message.assert_called_once_with(channel_id=arguments["channel_id"], message=arguments["message"], token="fake_token", breadcrumb=fake_breadcrumb)
         self.assertEqual(result, "error")
                     
 if __name__ == "__main__":
