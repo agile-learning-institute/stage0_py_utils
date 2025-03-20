@@ -32,7 +32,6 @@ class Evaluator:
     """
     def __init__(self, name=None, model=None, grade_model=None, grade_prompt_files=None, grade_prompt=None, prompt_files=None, prompt=None, conversations=None):
         """ """
-        self.input_folder = input
         self.name = name
         self.model = model
         self.grade_model = grade_model
