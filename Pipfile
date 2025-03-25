@@ -4,10 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [scripts]
+clean = "rm -rf ./dist"
+build = "sh -c 'python3 -m build'"
+check = "twine check dist/*"
+publish = "twine upload dist/*"
 local = "sh -c 'PYTHONPATH=$(pwd)/stage0_py_utils LOGGING_LEVEL=INFO python3 -m server'"
 debug = "sh -c 'PYTHONPATH=$(pwd)/stage0_py_utils LOGGING_LEVEL=DEBUG python3 -m server'"
 stepci = "stepci run ./tests/stepci.yaml"
-build = "sh -c 'python3 -m build'"
 
 [packages]
 flask = "*"
@@ -15,6 +18,7 @@ pymongo = "*"
 discord = "*"
 ollama = "*"
 prometheus-flask-exporter = "*"
+twine = "*"
 
 [dev-packages]
 setuptools = "*"
