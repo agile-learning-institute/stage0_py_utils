@@ -53,6 +53,26 @@ configuration values (Tokens, ID's, Port, etc.) from the FRAN bot. You can not r
 pipenv install
 ```
 
+## Clean any previous build output
+```bash
+pipenv run clean
+```
+
+## Build the Package
+```bash
+pipenv run build
+```
+
+## Check the Package is ready for publication
+```bash
+pipenv run check
+```
+
+## Publish the Package
+```bash
+pipenv run publish
+```
+
 ## Run sample server locally
 
 ```bash
@@ -70,10 +90,5 @@ pipenv run debug
 ```bash
 pipenv run debug
 ```
-NOTE: This assumes that the server is running at localhost:8580
-
-## Build the Package
-```bash
-pipenv run build
-```
+NOTE: This assumes that the server is running at localhost:8580. Use ``pipenv run local`` to start the server if needed
 

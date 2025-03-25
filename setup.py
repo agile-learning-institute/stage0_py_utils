@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="stage0_py_utils",
-    version="0.1.2",
+    version="0.1.3",
     description="A utility package for stage0 microservices",
     author="Your Name",
     author_email="your.email@example.com",
