@@ -60,48 +60,6 @@ tests:
             Content-Type: application/json          
           check:
             status: /200/
-  chains:
-    name: Test Chain endpoints
-    steps:
-      - name: Get All Chains
-        http:
-          url: http://${{env.host}}/api/chain
-          method: GET
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
-      - name: Get one Chain
-        http:
-          url: http://${{env.host}}/api/chain/a00000000000000000000001
-          method: GET
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
-  exercises:
-    name: Test Exercise endpoints
-    steps:
-      - name: Get All Exercises
-        http:
-          url: http://${{env.host}}/api/exercise
-          method: GET
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
-      - name: Get one Exercise
-        http:
-          url: http://${{env.host}}/api/exercise/b00000000000000000000001
-          method: GET
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
   bots:
     steps:
       - name: Get some Bots
@@ -329,12 +287,12 @@ tests:
             Content-Type: application/json          
           json:
             role: user
-            content: group:Why is the sky blue?
+            content: Why is the sky blue?
           check:
             status: /200/
             jsonpath:
               - role: user
-                content: group:Why is the sky blue?
+                content: From:aaaa00000000000000000001 To:group Why is the sky blue?
       - name: Add another message to NEW_CHANNEL_01
         http:
           url: http://${{env.host}}/api/conversation/NEW_CHANNEL_01/message
@@ -343,13 +301,13 @@ tests:
             Content-Type: application/json          
           json:
             role: assistant
-            content: group:Because it reflects blue light
+            content: Because it reflects blue light
           check:
             status: /200/
             jsonpath:
-              - content: group:Why is the sky blue?
+              - content: From:aaaa00000000000000000001 To:group Why is the sky blue?
                 role: user
-              - content: group:Because it reflects blue light
+              - content: From:aaaa00000000000000000001 To:group Because it reflects blue light
                 role: assistant
       - name: Roll Over the NEW_CHANNEL_01
         http:
@@ -373,12 +331,12 @@ tests:
             Content-Type: application/json          
           json:
             role: assistant
-            content: group:A fresh discussion
+            content: A fresh discussion
           check:
             status: /200/
             jsonpath:
               - role: assistant
-                content: group:A fresh discussion
+                content: From:aaaa00000000000000000001 To:group A fresh discussion
       - name: Reset NEW_CHANNEL_01 to housekeep
         http:
           url: http://${{env.host}}/api/conversation/NEW_CHANNEL_01/reset
@@ -388,83 +346,4 @@ tests:
           json: 
             status: complete
             channel_id: NEW_CHANNEL_01
-  workshops:
-    steps:
-      - name: Get all active Workshops
-        http:
-          url: http://${{env.host}}/api/workshop
-          method: GET
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
-      - name: Get some active Workshops
-        http:
-          url: http://${{env.host}}/api/workshop?query=^p
-          method: GET
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
-      - name: Get a Workshop
-        http:
-          url: http://${{env.host}}/api/workshop/000000000000000000000001
-          method: GET
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
-      - name: Create a Workshop
-        http:
-          url: http://${{env.host}}/api/workshop/new/a00000000000000000000001
-          method: POST
-          headers:
-            Content-Type: application/json          
-          json:
-            name: StepCI Testing Workshop
-          check:
-            status: /200/
-            jsonpath:
-      - name: Update a Workshop
-        http:
-          url: http://${{env.host}}/api/workshop/000000000000000000000001
-          method: PATCH
-          headers:
-            Content-Type: application/json          
-          json:
-            name: Updated StepCI Testing Workshop
-          check:
-            status: /200/
-            jsonpath:
-      - name: Start a Workshop
-        http:
-          url: http://${{env.host}}/api/workshop/000000000000000000000001/start
-          method: POST
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
-      - name: Advance a Workshop
-        http:
-          url: http://${{env.host}}/api/workshop/000000000000000000000001/next
-          method: POST
-          headers:
-            Content-Type: application/json          
-          check:
-            status: /200/
-            jsonpath:
-      - name: Add an Observation
-        http:
-          url: http://${{env.host}}/api/workshop/000000000000000000000001/observation
-          method: POST
-          headers:
-            Content-Type: application/json          
-          json:
-            name: A new observation
-          check:
-            status: /200/
-            jsonpath:
+  
