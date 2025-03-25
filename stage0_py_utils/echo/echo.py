@@ -47,6 +47,15 @@ class Echo:
             bot_id=bot_id
         )
         
+    def register_default_routes(self, app=None):
+        from stage0_py_utils import create_bot_routes
+        from stage0_py_utils import create_conversation_routes
+        from stage0_py_utils import create_echo_routes
+        app.register_blueprint(create_bot_routes(), url_prefix='/api/bot')
+        app.register_blueprint(create_conversation_routes(), url_prefix='/api/conversation')
+        app.register_blueprint(create_echo_routes(echo=self), url_prefix='/api/echo')    
+        return
+    
     def run(self, token):
         self.bot.run(token)
    

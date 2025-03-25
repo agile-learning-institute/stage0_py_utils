@@ -11,6 +11,7 @@ flask = "*"
 pymongo = "*"
 discord = "*"
 ollama = "*"
+prometheus-flask-exporter = "*"
 
 [dev-packages]
 setuptools = "*"
