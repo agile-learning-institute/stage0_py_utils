@@ -58,7 +58,7 @@ class LLMHandler:
 
         # Step 3: Call the LLM with updated conversation history
         logger.debug(f"LLM Chat Prompt: {messages[len(messages)-1]["content"]}")
-        llm_reply = self.llm.chat(model=self.llm.model, messages=messages)
+        llm_reply = self.llm.chat(messages=messages)
         logger.debug(f"LLM Reply Object: {llm_reply}")
         chat_reply = Message(llm_message=llm_reply["message"], user=self.echo_bot_name)
         logger.debug(f"LLM Chat Reply: {chat_reply.role}-{chat_reply.text[:49].strip()}...")

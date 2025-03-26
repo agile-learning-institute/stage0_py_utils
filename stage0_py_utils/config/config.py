@@ -30,6 +30,7 @@ class Config:
             self.PENDING_STATUS = ''
             self.COMPLETED_STATUS = ''
             self.MONGO_DB_NAME = ''
+            self.OLLAMA_HOST = ''
             self.BOT_COLLECTION_NAME = ''
             self.CHAIN_COLLECTION_NAME = ''
             self.CONVERSATION_COLLECTION_NAME = ''
@@ -59,6 +60,7 @@ class Config:
                 "PENDING_STATUS": "pending",
                 "COMPLETED_STATUS": "complete",
                 "MONGO_DB_NAME": "stage0",
+                "OLLAMA_HOST": "http://localhost:11434",
                 "BOT_COLLECTION_NAME": "bots",
                 "CHAIN_COLLECTION_NAME": "chains",
                 "CONVERSATION_COLLECTION_NAME": "conversations",
@@ -66,7 +68,7 @@ class Config:
                 "EXERCISE_COLLECTION_NAME": "exercises",
                 "VERSION_COLLECTION_NAME": "msmCurrentVersions",
                 "ELASTIC_INDEX_NAME": "stage0",
-                "FRAN_MODEL_NAME": "Fran",
+                "FRAN_MODEL_NAME": "llama3.2:latest",
                 "FRAN_BOT_ID": "BBB000000000000000000001",
             }
             self.config_ints = {
