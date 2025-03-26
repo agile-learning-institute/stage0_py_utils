@@ -13,7 +13,7 @@ class TestMockLLMClient(unittest.TestCase):
         model = "test-model"
         messages = [{"from": "user", "to": "group", "content": "Hello"}]
         
-        response = self.client.chat(model, messages)
+        response = self.client.chat(messages=messages)
 
         self.assertIn(response, self.client.replies, "chat() returned an unexpected response")
 
@@ -22,7 +22,7 @@ class TestMockLLMClient(unittest.TestCase):
         """Test that random.choice() is called when selecting a reply."""
         mock_random_choice.return_value = "group:helpdesk staff need a lesson on what's funny and what's not."
         
-        response = self.client.chat("test-model", [])
+        response = self.client.chat(messages=[])
         
         mock_random_choice.assert_called_once_with(self.client.replies)
         self.assertEqual(response, "group:helpdesk staff need a lesson on what's funny and what's not.")

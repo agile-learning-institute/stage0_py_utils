@@ -21,7 +21,7 @@ class MockLLMClient:
             {"message": {"role": "assistant", "content": "group:danger is somewhat overstated."}}
          ]
 
-    def chat(self, model: str, messages: list):
+    def chat(self, messages: list):
         """
         Get a random reply
         """

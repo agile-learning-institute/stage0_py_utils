@@ -25,7 +25,8 @@ logger.info(f"============= Starting Server Initialization ===============")
 # Initialize Echo Discord Bot - this will register the default Bot/Conversation/Echo Agents
 from stage0_py_utils import Echo
 from stage0_py_utils import OllamaLLMClient
-echo = Echo("Fran", bot_id=config.FRAN_BOT_ID, model=config.FRAN_MODEL_NAME, client=OllamaLLMClient())
+llm_client = OllamaLLMClient(base_url=config.OLLAMA_HOST, model=config.FRAN_MODEL_NAME)
+echo = Echo("Fran", bot_id=config.FRAN_BOT_ID, model=config.FRAN_MODEL_NAME, client=llm_client)
 # from echo.mock_llm_client import MockLLMClient
 # echo = Echo("Fran", bot_id=config.FRAN_BOT_ID, model=config.FRAN_MODEL_NAME, client=MockLLMClient())
 
