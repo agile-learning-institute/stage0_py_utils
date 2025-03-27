@@ -44,11 +44,7 @@ class Evaluator:
 
     def evaluate(self):
         """Evaluate the conversations and report the grades"""
-        grades = {
-            "model": self.model,
-            "prompts": self.prompt_files,
-            "grader": self.grade_prompt_files
-        }
+        grades = {}
         for name, conversation in self.conversations.items():
             logger.info(f"{self.name} Grading {name}")
             grades[name] = self.grade_conversation(conversation)
