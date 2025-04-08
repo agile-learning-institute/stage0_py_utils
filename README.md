@@ -48,7 +48,6 @@ We use pipenv automation to manage dependencies and automate common tasks. Note 
 configuration values (Tokens, ID's, Port, etc.) from the FRAN bot. You can not run the sample server if the FRAN bot is already running. 
 
 ## Install Dependencies
-
 ```bash
 pipenv install
 ```
@@ -72,23 +71,21 @@ pipenv run check
 ```bash
 pipenv run publish
 ```
+NOTE: You should not need to use this, publishing is handled by GitHub Actions CI
 
 ## Run sample server locally
-
 ```bash
 pipenv run local
 ```
 
 ## Run sample server locally with DEBUG logging
-
 ```bash
 pipenv run debug
 ```
 
 ## Run stepCI testing of Flask API endpoints
-
 ```bash
-pipenv run debug
+pipenv run stepci
 ```
 NOTE: This assumes that the server is running at localhost:8580. Use ``pipenv run local`` to start the server if needed
 
