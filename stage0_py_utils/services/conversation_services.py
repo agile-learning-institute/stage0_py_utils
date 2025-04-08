@@ -195,8 +195,22 @@ class ConversationServices:
         config = Config.get_instance()
         mongo = MongoIO.get_instance()
         
+        # Parse the CSV data and load messages
+        reader = csv.DictReader(StringIO(csv_data), quotechar='"', skipinitialspace=True)
+        messages = [
+            Message(
+                role=row["role"],
+                user=row["from"],
+                dialog=row["to"],
+                text=row["text"]
+            ).as_llm_message()
+            for row in reader
+        ]        
+        
         # Make sure the target conversation exists first. 
         target_conversation = ConversationServices.get_conversation(channel_id=channel_id, token=token, breadcrumb=breadcrumb)
+        
+        # Update the database
         match = {"$and": [
             {"channel_id": channel_id},
             {"version": config.LATEST_VERSION},
@@ -205,16 +219,6 @@ class ConversationServices:
         set_data = {
             "last_saved": breadcrumb
         }
-        
-        # Parse the CSV data and load messages
-        reader = csv.DictReader(StringIO(csv_data), quotechar='"', skipinitialspace=True)
-        lines = [row for i, row in enumerate(reader) if i > 0]
-        messages = [
-            Message(role=line["role"], user=line["from"], dialog=line["to"], text=line["text"]).as_llm_message()
-            for line in lines
-        ]
-        
-        # Update the database
         push_data = {"messages": {"$each": messages}}
         target_conversation = mongo.update_document(config.CONVERSATION_COLLECTION_NAME, match=match, set_data=set_data, push_data=push_data)
 
