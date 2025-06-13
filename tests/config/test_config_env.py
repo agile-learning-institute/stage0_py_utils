@@ -17,6 +17,9 @@ class TestConfigEnvironment(unittest.TestCase):
         for key, default in self.config.config_ints.items():
             os.environ[key] = "1234"
 
+        for key, default in self.config.config_booleans.items():
+            os.environ[key] = "true"
+
         for key, default in self.config.config_json_secrets.items():
             os.environ[key] = '{"foo":"bar"}'
 
@@ -38,6 +41,10 @@ class TestConfigEnvironment(unittest.TestCase):
         for key, default in self.config.config_ints.items():
             self.assertEqual(getattr(self.config, key), 1234)
 
+    def test_env_boolean_properties(self):
+        for key, default in self.config.config_booleans.items():
+            self.assertEqual(getattr(self.config, key), True)
+            
     def test_env_json_secret_properties(self):
         for key, default in self.config.config_json_secrets.items():
             self.assertEqual(getattr(self.config, key), {"foo":"bar"})

@@ -17,6 +17,10 @@ class TestConfigDefaults(unittest.TestCase):
         for key, default in self.config.config_ints.items():
             self.assertEqual(getattr(self.config, key), int(default))
 
+    def test_default_boolean_properties(self):
+        for key, default in self.config.config_booleans.items():
+            self.assertEqual(getattr(self.config, key), (default.lower() == "true"))
+
     def test_default_string_secret_properties(self):
         for key, default in self.config.config_string_secrets.items():
             self.assertEqual(getattr(self.config, key), default)

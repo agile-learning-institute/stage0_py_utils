@@ -23,6 +23,8 @@ class Config:
             self.CONFIG_FOLDER = ''
             self.INPUT_FOLDER = ''
             self.OUTPUT_FOLDER = ''
+            self.AUTO_PROCESS = False
+            self.EXIT_AFTER_PROCESSING = False
             self.LOGGING_LEVEL = ''
             self.LATEST_VERSION = ''
             self.ACTIVE_STATUS = ''
@@ -75,6 +77,10 @@ class Config:
                 "FRAN_API_PORT": "8580",
                 "SEARCH_API_PORT": "8581",
             }
+            self.config_booleans = {
+                "AUTO_PROCESS": "false",
+                "EXIT_AFTER_PROCESSING": "false",
+            }            
             self.config_string_secrets = {  
                 "MONGO_CONNECTION_STRING": "mongodb://root:example@localhost:27017/?tls=false&directConnection=true",
                 "STAGE0_FRAN_TOKEN": "BBB000000000000000000001",
@@ -102,6 +108,11 @@ class Config:
         # Initialize Config Integers
         for key, default in self.config_ints.items():
             value = int(self._get_config_value(key, default, False))
+            setattr(self, key, value)
+            
+        # Initialize Config Booleans
+        for key, default in self.config_booleans.items():
+            value = (self._get_config_value(key, default, False)).lower() == "true"
             setattr(self, key, value)
             
         # Initialize String Secrets
