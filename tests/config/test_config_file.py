@@ -26,6 +26,10 @@ class TestConfigFiles(unittest.TestCase):
         for key, default in self.config.config_ints.items():
             self.assertEqual(getattr(self.config, key), 9999)
 
+    def test_file_boolean_properties(self):
+        for key, default in self.config.config_booleans.items():
+            self.assertEqual(getattr(self.config, key), True)
+
     def test_file_json_secret_properties(self):
         for key, default in self.config.config_json_secrets.items():
             self.assertEqual(getattr(self.config, key), {"foo":"bat"})
