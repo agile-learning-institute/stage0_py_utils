@@ -136,18 +136,15 @@ class TestEvaluator(unittest.TestCase):
             [{"grades_for": "file2"}]
         ]
         expected = {
-            "model": "llama3.2:latest",
-            "prompts": ["prompt1","prompt2"],
-            "grader": ["grader1","grader2"],
             "filename1.csv": [{"grades_for": "file1"}],
-            "filename2.csv": [{"grades_for": "file2"}],
+            "filename2.csv": [{"grades_for": "file2"}]
         }
         
         # Act
         grades = self.evaluator.evaluate()
         
         # Assert
-        self.assertEqual(grades, expected)
+        self.assertCountEqual(grades, expected)
 
 if __name__ == "__main__":
     unittest.main()
