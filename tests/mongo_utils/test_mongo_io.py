@@ -17,9 +17,14 @@ class TestMongoIO(unittest.TestCase):
         self.mongo_io = MongoIO.get_instance()
 
     def tearDown(self):
-        if self.document_created:
+        try:
+            self.mongo_io.delete_documents(self.config.VERSION_COLLECTION_NAME, {"collectionName": "test_upsert"})
             self.mongo_io.delete_document(self.test_collection_name, self.test_id)
-        self.mongo_io.disconnect()
+            self.mongo_io.drop_collection("test_collection")
+        except Exception as e:
+            pass
+        finally:
+            self.mongo_io.disconnect()
     
     def test_singleton_behavior(self):
         # Test that MongoIO is a singleton
@@ -209,6 +214,128 @@ class TestMongoIO(unittest.TestCase):
         self.assertEqual(result[0]["collectionName"], "conversations")
         self.assertEqual(result[0]["currentVersion"], "1.0.0.0")
         self.assertNotIn("_id", result[0])
+
+    def test_upsert_document(self):
+        # Test upsert with new document
+        match = {"collectionName": "test_upsert"}
+        data = {"currentVersion": "test_version"}
+        document = self.mongo_io.upsert_document(self.config.VERSION_COLLECTION_NAME, match, data)
+        self.assertIsInstance(document, dict)
+        self.assertEqual(document["collectionName"], "test_upsert")
+        self.assertEqual(document["currentVersion"], "test_version")
+
+        # Test upsert with existing document
+        data = {"currentVersion": "updated_version"}
+        document = self.mongo_io.upsert_document(self.config.VERSION_COLLECTION_NAME, match, data)
+        self.assertIsInstance(document, dict)
+        self.assertEqual(document["collectionName"], "test_upsert")
+        self.assertEqual(document["currentVersion"], "updated_version")
+
+    def test_schema_operations(self):
+        # Test schema application
+        schema = {
+            "bsonType": "object",
+            "required": ["name", "status"],
+            "properties": {
+                "name": {"bsonType": "string"},
+                "status": {"bsonType": "string"}
+            }
+        }
+        self.mongo_io.apply_schema("test_collection", schema)
+        
+        # Verify schema was applied
+        validation_rules = self.mongo_io.get_schema("test_collection")
+        self.assertIn("$jsonSchema", validation_rules)
+        self.assertEqual(validation_rules["$jsonSchema"], schema)
+
+        # Test schema removal
+        self.mongo_io.remove_schema("test_collection")
+        
+        # Verify schema was removed
+        validation_rules = self.mongo_io.get_schema("test_collection")
+        self.assertEqual(validation_rules, {})
+
+    def test_index_operations(self):
+        # Test index creation
+        new_indexes = [
+            {
+                "name": "test_index",
+                "key": [("name", ASCENDING)]
+            }
+        ]
+        self.mongo_io.create_index(self.test_collection_name, new_indexes)
+        
+        # Verify index was created
+        indexes = self.mongo_io.get_indexes(self.test_collection_name)
+        index_names = [idx["name"] for idx in indexes]
+        self.assertIn("test_index", index_names)
+
+        # Test index dropping
+        self.mongo_io.drop_index(self.test_collection_name, "test_index")
+        
+        # Verify index was dropped
+        indexes = self.mongo_io.get_indexes(self.test_collection_name)
+        index_names = [idx["name"] for idx in indexes]
+        self.assertNotIn("test_index", index_names)
+
+    def test_pipeline_execution(self):
+        # Create test documents
+        test_docs = [
+            {"name": "Test1", "status": "active"},
+            {"name": "Test2", "status": "active"},
+            {"name": "Test3", "status": "inactive"}
+        ]
+        for doc in test_docs:
+            self.mongo_io.create_document("test_collection", doc)
+
+        # Test pipeline execution
+        pipeline = [
+            {"$set": {"status": "archived"}},
+            {"$out": "test_collection"}  
+        ]
+        self.mongo_io.execute_pipeline("test_collection", pipeline)
+        
+        # Verify pipeline execution
+        documents = self.mongo_io.get_documents("test_collection", {})
+        self.assertEqual(len(documents), 3)
+        self.assertEqual(documents[0]["status"], "archived")
+        self.assertEqual(documents[1]["status"], "archived")
+        self.assertEqual(documents[2]["status"], "archived")
+
+    def test_delete_document(self):
+        # Create a test document
+        self.mongo_io.get_collection("test_collection")
+        self.test_id = self.mongo_io.create_document("test_collection", self.test_bot)
+
+        # Delete by ID
+        deleted_count = self.mongo_io.delete_document("test_collection", self.test_id)
+        self.assertEqual(deleted_count, 1)
+        self.document_created = False
+
+    def test_delete_documents(self):
+        # Create multiple test documents
+        test_docs = [
+            {"name": "Test1", "status": "active"},
+            {"name": "Test2", "status": "active"},
+            {"name": "Test3", "status": "inactive"}
+        ]
+        for doc in test_docs:
+            self.mongo_io.create_document("test_collection", doc)
+
+        # Delete by match
+        deleted_count = self.mongo_io.delete_documents(
+            collection_name="test_collection",
+            match={"status": "active"}
+        )
+        self.assertEqual(deleted_count, 2)
+
+        # Verify remaining document
+        remaining = self.mongo_io.get_documents(
+            "test_collection",
+            match={"status": "inactive"}
+        )
+        self.assertEqual(len(remaining), 1)
+        self.assertEqual(remaining[0]["name"], "Test3")
 
 if __name__ == '__main__':
     unittest.main()
