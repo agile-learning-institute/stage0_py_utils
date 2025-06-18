@@ -76,6 +76,7 @@ class Config:
             self.config_ints = {
                 "FRAN_API_PORT": "8580",
                 "SEARCH_API_PORT": "8581",
+                "MONGODB_API_PORT": "8582",
             }
             self.config_booleans = {
                 "AUTO_PROCESS": "false",
