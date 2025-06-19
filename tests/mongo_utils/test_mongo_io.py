@@ -314,28 +314,81 @@ class TestMongoIO(unittest.TestCase):
 
     def test_delete_documents(self):
         # Create multiple test documents
-        test_docs = [
-            {"name": "Test1", "status": "active"},
-            {"name": "Test2", "status": "active"},
-            {"name": "Test3", "status": "inactive"}
-        ]
-        for doc in test_docs:
-            self.mongo_io.create_document("test_collection", doc)
-
-        # Delete by match
-        deleted_count = self.mongo_io.delete_documents(
-            collection_name="test_collection",
-            match={"status": "active"}
-        )
+        doc1 = {"name": "test1", "value": 1}
+        doc2 = {"name": "test2", "value": 2}
+        doc3 = {"name": "test3", "value": 3}
+        
+        self.mongo_io.create_document("test_collection", doc1)
+        self.mongo_io.create_document("test_collection", doc2)
+        self.mongo_io.create_document("test_collection", doc3)
+        
+        # Delete documents with match criteria
+        deleted_count = self.mongo_io.delete_documents("test_collection", {"value": {"$lt": 3}})
         self.assertEqual(deleted_count, 2)
-
+        
         # Verify remaining document
-        remaining = self.mongo_io.get_documents(
-            "test_collection",
-            match={"status": "inactive"}
-        )
+        remaining = self.mongo_io.get_documents("test_collection")
         self.assertEqual(len(remaining), 1)
-        self.assertEqual(remaining[0]["name"], "Test3")
+        self.assertEqual(remaining[0]["name"], "test3")
+
+    def test_load_test_data_with_extended_json(self):
+        """Test that load_test_data properly handles MongoDB Extended JSON format."""
+        import tempfile
+        import os
+        
+        # Create a temporary JSON file with MongoDB Extended JSON format
+        test_data = [
+            {
+                "_id": {"$oid": "A00000000000000000000001"},
+                "name": "test_document",
+                "status": "active",
+                "created_at": {"$date": "2024-01-01T00:00:00Z"},
+                "nested": {
+                    "id": {"$oid": "B00000000000000000000001"},
+                    "timestamp": {"$date": "2024-01-02T12:00:00Z"}
+                }
+            }
+        ]
+        
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            import json
+            json.dump(test_data, f)
+            temp_file = f.name
+        
+        try:
+            # Load the test data
+            self.mongo_io.load_test_data("test_collection", temp_file)
+            
+            # Verify the data was loaded correctly
+            documents = self.mongo_io.get_documents("test_collection")
+            self.assertEqual(len(documents), 1)
+            
+            doc = documents[0]
+            
+            # Check that _id is a proper ObjectId
+            from bson import ObjectId
+            self.assertIsInstance(doc["_id"], ObjectId)
+            self.assertEqual(str(doc["_id"]).lower(), "a00000000000000000000001")
+            
+            # Check that created_at is a proper datetime
+            from datetime import datetime
+            self.assertIsInstance(doc["created_at"], datetime)
+            expected_datetime = datetime(2024, 1, 1, 0, 0, 0)
+            self.assertEqual(doc["created_at"].replace(tzinfo=None), expected_datetime)
+            
+            # Check nested ObjectId
+            self.assertIsInstance(doc["nested"]["id"], ObjectId)
+            self.assertEqual(str(doc["nested"]["id"]).lower(), "b00000000000000000000001")
+            
+            # Check nested datetime
+            self.assertIsInstance(doc["nested"]["timestamp"], datetime)
+            expected_nested_datetime = datetime(2024, 1, 2, 12, 0, 0)
+            self.assertEqual(doc["nested"]["timestamp"].replace(tzinfo=None), expected_nested_datetime)
+            
+        finally:
+            # Clean up
+            os.unlink(temp_file)
+            self.mongo_io.drop_collection("test_collection")
 
 if __name__ == '__main__':
     unittest.main()

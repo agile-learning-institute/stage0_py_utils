@@ -3,6 +3,7 @@ from bson import ObjectId
 from pymongo import MongoClient, ASCENDING, DESCENDING
 from pymongo.operations import IndexModel
 from stage0_py_utils.config.config import Config
+from bson import json_util
 
 import logging
 logger = logging.getLogger(__name__)
@@ -397,6 +398,21 @@ class MongoIO:
             logger.error(f"Failed to execute pipeline: {e}")
             raise
     
+    def load_test_data(self, collection_name, data_file):
+        """Load test data from a file into a collection."""
+        if not self.connected: raise Exception("load_test_data when Mongo Not Connected")
+        
+        try:
+            collection = self.get_collection(collection_name)
+            with open(data_file, 'r') as file:
+                # Use bson.json_util.loads to handle MongoDB Extended JSON format
+                data = json_util.loads(file.read())
+            collection.insert_many(data)
+            logger.info(f"Loaded {len(data)} documents from {data_file} into collection: {collection_name}")
+        except Exception as e:
+            logger.error(f"Failed to load test data: {e}")
+            raise
+            
     # Singleton Getter
     @staticmethod
     def get_instance():
