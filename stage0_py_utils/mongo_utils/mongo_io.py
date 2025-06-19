@@ -67,7 +67,7 @@ class MongoIO:
             return self.db.get_collection(collection_name)
         except Exception as e:
             logger.error(f"Failed to get/create collection: {collection_name} {e}")
-            raise
+            raise e
 
     def drop_collection(self, collection_name):
         """Drop a collection from the database.
@@ -88,7 +88,7 @@ class MongoIO:
             return False
         except Exception as e:
             logger.error(f"Failed to drop collection: {e}")
-            raise
+            raise e
       
     def get_documents(self, collection_name, match=None, project=None, sort_by=None):
         """
@@ -118,7 +118,7 @@ class MongoIO:
             return documents
         except Exception as e:
             logger.error(f"Failed to get documents from collection '{collection_name}': {e}")
-            raise
+            raise e
                 
     def update_document(self, collection_name, document_id=None, match=None, set_data=None, push_data=None, add_to_set_data=None, pull_data=None):
         """
@@ -175,7 +175,7 @@ class MongoIO:
             return document
         except Exception as e:
             logger.error(f"Failed to get document: {e}")
-            raise
+            raise e 
 
     def create_document(self, collection_name, document):
         """Create a curriculum by ID."""
@@ -187,7 +187,7 @@ class MongoIO:
             return str(result.inserted_id)
         except Exception as e:
             logger.error(f"Failed to create document: {e}")
-            raise   
+            raise e
 
     def delete_document(self, collection_name, document_id):
         """Delete a single document by ID.
@@ -207,7 +207,7 @@ class MongoIO:
             result = document_collection.delete_one({"_id": document_object_id})
         except Exception as e:
             logger.error(f"Failed to delete document: {e}")
-            raise 
+            raise e
         
         return result.deleted_count
 
@@ -228,7 +228,7 @@ class MongoIO:
             result = document_collection.delete_many(match)
         except Exception as e:
             logger.error(f"Failed to delete documents: {e}")
-            raise 
+            raise e
         
         return result.deleted_count
 
@@ -256,7 +256,7 @@ class MongoIO:
             return result
         except Exception as e:
             logger.error(f"Failed to upsert document: {e}")
-            raise
+            raise e
 
     def apply_schema(self, collection_name, schema):
         """Apply schema validation to a collection.
@@ -280,7 +280,7 @@ class MongoIO:
             logger.info(f"Schema validation applied successfully: {collection_name} {result}")
         except Exception as e:
             logger.error(f"Failed to apply schema validation: {collection_name} {e} {schema}")
-            raise
+            raise e
 
     def get_schema(self, collection_name):
         """Get the current schema validation rules for a collection.
@@ -302,7 +302,7 @@ class MongoIO:
             return validation_rules
         except Exception as e:
             logger.error(f"Failed to get schema validation: {collection_name} {e}")
-            raise
+            raise e
 
     def remove_schema(self, collection_name):
         """Remove schema validation from a collection.
@@ -325,7 +325,7 @@ class MongoIO:
             logger.info(f"Schema validation cleared successfully: {result}")
         except Exception as e:
             logger.error(f"Failed to clear schema validation: {e}")
-            raise
+            raise e
 
     def create_index(self, collection_name, indexes):
         """Create indexes on a collection.
@@ -343,7 +343,7 @@ class MongoIO:
             logger.info(f"Created {len(indexes)} indexes")
         except Exception as e:
             logger.error(f"Failed to create indexes: {e}")
-            raise
+            raise e
 
     def drop_index(self, collection_name, index_name):
         """Drop an index from a collection.
@@ -360,7 +360,7 @@ class MongoIO:
             logger.info(f"Dropped index {index_name} from collection: {collection_name}")
         except Exception as e:
             logger.error(f"Failed to drop index: {e}")
-            raise
+            raise e
 
     def get_indexes(self, collection_name):
         """Get all indexes for a collection.
@@ -378,7 +378,7 @@ class MongoIO:
             return list(collection.list_indexes())
         except Exception as e:
             logger.error(f"Failed to get indexes: {e}")
-            raise
+            raise e
 
     def execute_pipeline(self, collection_name, pipeline):
         """Execute a MongoDB aggregation pipeline.
@@ -396,22 +396,35 @@ class MongoIO:
             return result
         except Exception as e:
             logger.error(f"Failed to execute pipeline: {e}")
-            raise
+            raise e
     
     def load_test_data(self, collection_name, data_file):
         """Load test data from a file into a collection."""
         if not self.connected: raise Exception("load_test_data when Mongo Not Connected")
-        
+        from pymongo.errors import BulkWriteError
         try:
             collection = self.get_collection(collection_name)
             with open(data_file, 'r') as file:
                 # Use bson.json_util.loads to handle MongoDB Extended JSON format
                 data = json_util.loads(file.read())
-            collection.insert_many(data)
-            logger.info(f"Loaded {len(data)} documents from {data_file} into collection: {collection_name}")
+            
+            logger.info(f"Loading {len(data)} documents from {data_file} into collection: {collection_name}")
+            result = collection.insert_many(data)
+            
+            return {
+                "status": "success",
+                "operation": "load_test_data",
+                "collection": collection_name,
+                "documents_loaded": len(data),
+                "inserted_ids": [str(oid) for oid in result.inserted_ids],
+                "acknowledged": result.acknowledged
+            }
+        except BulkWriteError as bwe:
+            logger.error(f"Schema validation failed for {data_file}: {bwe.details}")
+            raise Exception(f"Schema validation failed for {data_file}: {bwe.details}")
         except Exception as e:
             logger.error(f"Failed to load test data: {e}")
-            raise
+            raise e
             
     # Singleton Getter
     @staticmethod

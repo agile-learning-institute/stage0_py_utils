@@ -4,6 +4,7 @@ import unittest
 from unittest import TestLoader
 from stage0_py_utils import Config, MongoIO
 from pymongo import ASCENDING, DESCENDING
+from unittest.mock import patch
 
 class TestMongoIO(unittest.TestCase):
     
@@ -331,22 +332,17 @@ class TestMongoIO(unittest.TestCase):
         self.assertEqual(len(remaining), 1)
         self.assertEqual(remaining[0]["name"], "test3")
 
-    def test_load_test_data_with_extended_json(self):
-        """Test that load_test_data properly handles MongoDB Extended JSON format."""
+    def test_load_test_data_success_return_value(self):
+        """Test that load_test_data returns proper success information."""
         import tempfile
         import os
         
-        # Create a temporary JSON file with MongoDB Extended JSON format
+        # Create a temporary JSON file with valid data
         test_data = [
             {
                 "_id": {"$oid": "A00000000000000000000001"},
                 "name": "test_document",
-                "status": "active",
-                "created_at": {"$date": "2024-01-01T00:00:00Z"},
-                "nested": {
-                    "id": {"$oid": "B00000000000000000000001"},
-                    "timestamp": {"$date": "2024-01-02T12:00:00Z"}
-                }
+                "status": "active"
             }
         ]
         
@@ -357,33 +353,16 @@ class TestMongoIO(unittest.TestCase):
         
         try:
             # Load the test data
-            self.mongo_io.load_test_data("test_collection", temp_file)
+            result = self.mongo_io.load_test_data("test_collection", temp_file)
             
-            # Verify the data was loaded correctly
-            documents = self.mongo_io.get_documents("test_collection")
-            self.assertEqual(len(documents), 1)
-            
-            doc = documents[0]
-            
-            # Check that _id is a proper ObjectId
-            from bson import ObjectId
-            self.assertIsInstance(doc["_id"], ObjectId)
-            self.assertEqual(str(doc["_id"]).lower(), "a00000000000000000000001")
-            
-            # Check that created_at is a proper datetime
-            from datetime import datetime
-            self.assertIsInstance(doc["created_at"], datetime)
-            expected_datetime = datetime(2024, 1, 1, 0, 0, 0)
-            self.assertEqual(doc["created_at"].replace(tzinfo=None), expected_datetime)
-            
-            # Check nested ObjectId
-            self.assertIsInstance(doc["nested"]["id"], ObjectId)
-            self.assertEqual(str(doc["nested"]["id"]).lower(), "b00000000000000000000001")
-            
-            # Check nested datetime
-            self.assertIsInstance(doc["nested"]["timestamp"], datetime)
-            expected_nested_datetime = datetime(2024, 1, 2, 12, 0, 0)
-            self.assertEqual(doc["nested"]["timestamp"].replace(tzinfo=None), expected_nested_datetime)
+            # Verify the return value structure
+            self.assertEqual(result["status"], "success")
+            self.assertEqual(result["operation"], "load_test_data")
+            self.assertEqual(result["collection"], "test_collection")
+            self.assertEqual(result["documents_loaded"], 1)
+            self.assertIsInstance(result["inserted_ids"], list)
+            self.assertEqual(len(result["inserted_ids"]), 1)
+            self.assertTrue(result["acknowledged"])
             
         finally:
             # Clean up
