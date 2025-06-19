@@ -25,6 +25,7 @@ class Config:
             self.OUTPUT_FOLDER = ''
             self.AUTO_PROCESS = False
             self.EXIT_AFTER_PROCESSING = False
+            self.LOAD_TEST_DATA = False
             self.LOGGING_LEVEL = ''
             self.LATEST_VERSION = ''
             self.ACTIVE_STATUS = ''
@@ -81,6 +82,7 @@ class Config:
             self.config_booleans = {
                 "AUTO_PROCESS": "false",
                 "EXIT_AFTER_PROCESSING": "false",
+                "LOAD_TEST_DATA": "false",
             }            
             self.config_string_secrets = {  
                 "MONGO_CONNECTION_STRING": "mongodb://root:example@localhost:27017/?tls=false&directConnection=true",
