@@ -10,6 +10,11 @@ logger = logging.getLogger(__name__)
 
 # TODO: - Refactor to use connection pooling
 
+class TestDataLoadError(Exception):
+    def __init__(self, message, details=None):
+        super().__init__(message)
+        self.details = details
+
 class MongoIO:
     _instance = None
 
@@ -421,7 +426,7 @@ class MongoIO:
             }
         except BulkWriteError as bwe:
             logger.error(f"Schema validation failed for {data_file}: {bwe.details}")
-            raise Exception(f"Schema validation failed for {data_file}: {bwe.details}")
+            raise TestDataLoadError("Schema validation failed during test data load", details=bwe.details)
         except Exception as e:
             logger.error(f"Failed to load test data: {e}")
             raise e
