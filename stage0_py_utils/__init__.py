@@ -18,7 +18,7 @@ from .evaluator.loader import Loader
 from .flask_utils.breadcrumb import create_flask_breadcrumb
 from .flask_utils.token import create_flask_token
 from .flask_utils.ejson_encoder import MongoJSONEncoder
-from .mongo_utils.mongo_io import MongoIO
+from .mongo_utils.mongo_io import MongoIO, TestDataLoadError
 from .mongo_utils.encode_properties import encode_document
 from .routes.bot_routes import create_bot_routes
 from .routes.config_routes import create_config_routes
@@ -30,7 +30,7 @@ from .services.conversation_services import ConversationServices
 __all__ = [
     # Configuration and Database Utilities
     Config, create_config_agent, create_config_routes,
-    MongoIO, MongoJSONEncoder, encode_document,
+    MongoIO, TestDataLoadError, MongoJSONEncoder, encode_document,
 
     # Echo Framework
     Echo, Agent, Message, DiscordBot, LLMHandler, MockLLMClient, OllamaLLMClient,
