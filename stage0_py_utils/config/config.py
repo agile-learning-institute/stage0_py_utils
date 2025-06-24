@@ -44,7 +44,7 @@ class Config:
             self.DISCORD_FRAN_TOKEN = ''
             self.STAGE0_FRAN_TOKEN = ''
             self.FRAN_MODEL_NAME = ''
-            self.FRAN_API_PORT = 0
+            self.FRAN_BOT_PORT = 0
             self.FRAN_BOT_ID = ''
             self.SEARCH_API_PORT = 0
             self.MONGO_CONNECTION_STRING = ''
@@ -75,9 +75,9 @@ class Config:
                 "FRAN_BOT_ID": "BBB000000000000000000001",
             }
             self.config_ints = {
-                "FRAN_API_PORT": "8580",
-                "SEARCH_API_PORT": "8581",
-                "MONGODB_API_PORT": "8582",
+                "FRAN_BOT_PORT": "8087",
+                "SEARCH_API_PORT": "8083",
+                "MONGODB_API_PORT": "8081",
             }
             self.config_booleans = {
                 "AUTO_PROCESS": "false",
@@ -85,7 +85,7 @@ class Config:
                 "LOAD_TEST_DATA": "false",
             }            
             self.config_string_secrets = {  
-                "MONGO_CONNECTION_STRING": "mongodb://root:example@localhost:27017/?tls=false&directConnection=true",
+                "MONGO_CONNECTION_STRING": "mongodb://mongodb:27017/?replicaSet=rs0",
                 "STAGE0_FRAN_TOKEN": "BBB000000000000000000001",
                 "DISCORD_FRAN_TOKEN": ""
             }
