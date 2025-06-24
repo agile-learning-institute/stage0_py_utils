@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="stage0_py_utils",
-    version="0.2.2",
+    version="0.2.3",
     description="A utility package for stage0 microservices",
     author="Mike Storey",
-    author_email="leave_me_alone@example.com",
+    author_email="devs@agile-learning.institute",
     license="MIT",
     packages=find_packages(where="."),
     python_requires=">=3.8",
