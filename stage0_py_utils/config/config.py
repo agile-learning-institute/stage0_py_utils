@@ -85,7 +85,7 @@ class Config:
                 "LOAD_TEST_DATA": "false",
             }            
             self.config_string_secrets = {  
-                "MONGO_CONNECTION_STRING": "mongodb://root:example@localhost:27017/?tls=false&directConnection=true",
+                "MONGO_CONNECTION_STRING": "mongodb://mongodb:27017/?replicaSet=rs0",
                 "STAGE0_FRAN_TOKEN": "BBB000000000000000000001",
                 "DISCORD_FRAN_TOKEN": ""
             }
