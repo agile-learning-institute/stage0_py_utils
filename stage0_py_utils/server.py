@@ -69,7 +69,7 @@ logger.info(f"============= Routes Registered ===============")
 #####   Update to use your apps values.
 
 # Flask server run's in it's own thread
-server = make_server("0.0.0.0", config.FRAN_API_PORT, app)
+server = make_server("0.0.0.0", config.FRAN_BOT_PORT, app)
 flask_thread = threading.Thread(target=server.serve_forever)
 
 # Define a signal handler for SIGTERM and SIGINT
