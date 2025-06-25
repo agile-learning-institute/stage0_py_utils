@@ -1,6 +1,6 @@
 import json
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from bson.objectid import ObjectId
 from flask import Flask
 from stage0_py_utils import MongoJSONEncoder  
@@ -20,6 +20,23 @@ class TestMongoJSONEncoder(unittest.TestCase):
         now = datetime.now(timezone.utc)
         result = self.app.json.dumps({'timestamp': now})
         expected = f'{{"timestamp": "{str(now)}"}}'
+        self.assertEqual(result, expected)
+
+    def test_encode_date(self):
+        today = date.today()
+        result = self.app.json.dumps({'today': today})
+        expected = f'{{"today": "{str(today)}"}}'
+        self.assertEqual(result, expected)
+
+    def test_encode_custom_isoformat(self):
+        class CustomISO:
+            def isoformat(self):
+                return "2024-06-25T12:34:56"
+            def __str__(self):
+                return self.isoformat()
+        custom = CustomISO()
+        result = self.app.json.dumps({'custom': custom})
+        expected = '{"custom": "2024-06-25T12:34:56"}'
         self.assertEqual(result, expected)
 
     def test_encode_mixed_objects(self):
