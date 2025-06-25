@@ -69,7 +69,7 @@ class Config:
                 "CONVERSATION_COLLECTION_NAME": "conversations",
                 "WORKSHOP_COLLECTION_NAME": "workshops",
                 "EXERCISE_COLLECTION_NAME": "exercises",
-                "VERSION_COLLECTION_NAME": "msmCurrentVersions",
+                "VERSION_COLLECTION_NAME": "CollectionVersions",
                 "ELASTIC_INDEX_NAME": "stage0",
                 "FRAN_MODEL_NAME": "llama3.2:latest",
                 "FRAN_BOT_ID": "BBB000000000000000000001",

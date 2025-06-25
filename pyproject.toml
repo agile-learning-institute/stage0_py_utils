@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stage0_py_utils"
-version = "0.2.3"
+version = "0.2.4"
 description = "A utility package for stage0 microservices"
-authors = [{name = "Mike Storey", email = "leave_me_alone@example.com"}]
+authors = [{name = "Mike Storey", email = "devs@agile-learning.institute"}]
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.8"
