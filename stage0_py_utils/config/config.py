@@ -49,6 +49,13 @@ class Config:
             self.SEARCH_API_PORT = 0
             self.MONGO_CONNECTION_STRING = ''
             self.ELASTIC_CLIENT_OPTIONS = {}
+            # Search API specific configuration items
+            self.ELASTIC_SEARCH_INDEX = ''
+            self.ELASTIC_SYNC_INDEX = ''
+            self.ELASTIC_SEARCH_MAPPING = {}
+            self.ELASTIC_SYNC_MAPPING = {}
+            self.ELASTIC_SYNC_PERIOD = 0
+            self.SYNC_BATCH_SIZE = 0
     
             # Default Values grouped by value type            
             self.config_strings = {
@@ -73,11 +80,15 @@ class Config:
                 "ELASTIC_INDEX_NAME": "stage0",
                 "FRAN_MODEL_NAME": "llama3.2:latest",
                 "FRAN_BOT_ID": "BBB000000000000000000001",
+                "ELASTIC_SEARCH_INDEX": "stage0_search",
+                "ELASTIC_SYNC_INDEX": "stage0_sync_history",
             }
             self.config_ints = {
                 "FRAN_BOT_PORT": "8087",
                 "SEARCH_API_PORT": "8083",
                 "MONGODB_API_PORT": "8081",
+                "ELASTIC_SYNC_PERIOD": "0",
+                "SYNC_BATCH_SIZE": "100",
             }
             self.config_booleans = {
                 "AUTO_PROCESS": "false",
@@ -91,6 +102,8 @@ class Config:
             }
             self.config_json_secrets = {
                 "ELASTIC_CLIENT_OPTIONS": '{"node":"http://localhost:9200"}',
+                "ELASTIC_SEARCH_MAPPING": '{"properties":{"collection_name":{"type":"keyword"},"collection_id":{"type":"keyword"},"last_saved":{"type":"date"}}}',
+                "ELASTIC_SYNC_MAPPING": '{"properties":{"started_at":{"type":"date"}}}',
             }
 
             # Initialize configuration
