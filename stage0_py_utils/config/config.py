@@ -56,6 +56,7 @@ class Config:
             self.ELASTIC_SYNC_MAPPING = {}
             self.ELASTIC_SYNC_PERIOD = 0
             self.SYNC_BATCH_SIZE = 0
+            self.MONGO_COLLECTION_NAMES = []
     
             # Default Values grouped by value type            
             self.config_strings = {
@@ -140,6 +141,16 @@ class Config:
         for key, default in self.config_json_secrets.items():
             value = json.loads(self._get_config_value(key, default, True))
             setattr(self, key, value)
+            
+        # Populate MONGO_COLLECTION_NAMES with all Mongo collection names
+        self.MONGO_COLLECTION_NAMES = [
+            self.BOT_COLLECTION_NAME,
+            self.CHAIN_COLLECTION_NAME,
+            self.CONVERSATION_COLLECTION_NAME,
+            self.WORKSHOP_COLLECTION_NAME,
+            self.EXERCISE_COLLECTION_NAME,
+            self.VERSION_COLLECTION_NAME
+        ]
             
         return
 
