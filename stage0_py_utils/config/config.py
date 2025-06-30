@@ -101,7 +101,7 @@ class Config:
                 "DISCORD_FRAN_TOKEN": ""
             }
             self.config_json_secrets = {
-                "ELASTIC_CLIENT_OPTIONS": '{"node":"http://localhost:9200"}',
+                "ELASTIC_CLIENT_OPTIONS": '{"hosts":"http://localhost:9200"}',
                 "ELASTIC_SEARCH_MAPPING": '{"properties":{"collection_name":{"type":"keyword"},"collection_id":{"type":"keyword"},"last_saved":{"type":"date"}}}',
                 "ELASTIC_SYNC_MAPPING": '{"properties":{"started_at":{"type":"date"}}}',
             }
