@@ -62,6 +62,7 @@ class Config:
             self.ELASTIC_SYNC_PERIOD = 0
             self.SYNC_BATCH_SIZE = 0
             self.MONGO_COLLECTION_NAMES = []
+            self.PAGE_SIZE = 0
             # SPA Collection URL properties
             self.BOT_SPA_URL = ''
             self.CHAIN_SPA_URL = ''
@@ -119,6 +120,7 @@ class Config:
                 "MONGODB_API_PORT": "8081",
                 "ELASTIC_SYNC_PERIOD": "0",
                 "SYNC_BATCH_SIZE": "100",
+                "PAGE_SIZE": "30",
             }
             self.config_booleans = {
                 "AUTO_PROCESS": "false",
