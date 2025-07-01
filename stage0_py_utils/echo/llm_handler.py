@@ -57,7 +57,7 @@ class LLMHandler:
             if dialog == Message.GROUP_DIALOG: return agent_reply_string
 
         # Step 3: Call the LLM with updated conversation history
-        logger.debug(f"LLM Chat Prompt: {messages[len(messages)-1]["content"]}")
+        logger.debug(f"LLM Chat Prompt: {messages[len(messages)-1]['content']}")
         llm_reply = self.llm.chat(messages=messages)
         logger.debug(f"LLM Reply Object: {llm_reply}")
         chat_reply = Message(llm_message=llm_reply["message"], user=self.echo_bot_name)
