@@ -52,7 +52,7 @@ class TestEchoRoutes(unittest.TestCase):
         """Test GET /api/echo/{agent}/{action} for successful response."""
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
 
         self.mock_echo.get_action.return_value = {"foo":"bar"}
@@ -71,7 +71,7 @@ class TestEchoRoutes(unittest.TestCase):
     def test_get_action_failure(self, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/echo/<name>/<name> when an exception occurs."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
 
         self.mock_echo.get_action.side_effect = Exception("Database error")

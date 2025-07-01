@@ -19,7 +19,7 @@ class TestBotRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_get_bots.return_value = [{"id": "bot1", "name": "Test Bot"}]
 
@@ -55,7 +55,7 @@ class TestBotRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_get_bot.return_value = {"id": "bot1", "name": "Test Bot"}
 
@@ -75,7 +75,7 @@ class TestBotRoutes(unittest.TestCase):
     def test_get_bot_failure(self, mock_get_bot, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/bot/{id} when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_get_bot.side_effect = Exception("Database error")
 
@@ -92,14 +92,14 @@ class TestBotRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_bot = {"id": "bot1", "foo": "bar"}
         mock_update_bot.return_value = mock_bot
         patch_data = {"foo": "bar"}
 
         # Act
-        response = self.client.patch('/api/bot/bot1', json=patch_data)
+        response = self.client.put('/api/bot/bot1', json=patch_data)
 
         # Assert
         self.assertEqual(response.status_code, 200)
@@ -114,11 +114,11 @@ class TestBotRoutes(unittest.TestCase):
     def test_update_bot_failure(self, mock_update_bot, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/bots when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_update_bot.side_effect = Exception("Database error")
 
-        response = self.client.patch('/api/bot/bot1', json={})
+        response = self.client.put('/api/bot/bot1', json={})
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.json, {"error": "A processing error occurred"})
@@ -131,7 +131,7 @@ class TestBotRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         channels = ["channel1", "channel2", "channel3"]
         mock_get_channels.return_value = channels
@@ -144,7 +144,7 @@ class TestBotRoutes(unittest.TestCase):
         self.assertEqual(response.json, channels)
         mock_create_token.assert_called_once()
         mock_create_breadcrumb.assert_called_once_with(mock_token)
-        mock_get_channels.assert_called_once_with("bot1", fake_breadcrumb)
+        mock_get_channels.assert_called_once_with("bot1", mock_token)
 
     @patch('stage0_py_utils.routes.bot_routes.create_flask_token')
     @patch('stage0_py_utils.routes.bot_routes.create_flask_breadcrumb')
@@ -152,7 +152,7 @@ class TestBotRoutes(unittest.TestCase):
     def test_get_channels_failure(self, mock_get_channels, mock_create_breadcrumb, mock_create_token):
         """Test GET /api/bot when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_get_channels.side_effect = Exception("Database error")
 
@@ -169,7 +169,7 @@ class TestBotRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         channels = ["channel1", "channel2", "channel3", "channel4"]
         mock_add_channel.return_value = channels
@@ -190,7 +190,7 @@ class TestBotRoutes(unittest.TestCase):
     def test_add_channel_failure(self, mock_add_channel, mock_create_breadcrumb, mock_create_token):
         """Test POST /api/bot/{id}/channel/{channel_id} when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_add_channel.side_effect = Exception("Database error")
 
@@ -207,7 +207,7 @@ class TestBotRoutes(unittest.TestCase):
         # Arrange
         mock_token = {"user_id": "mock_user"}
         mock_create_token.return_value = mock_token
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         channels = ["channel1", "channel2", "channel3"]
         mock_remove_channel.return_value = channels
@@ -228,7 +228,7 @@ class TestBotRoutes(unittest.TestCase):
     def test_remove_channel_failure(self, mock_remove_channel, mock_create_breadcrumb, mock_create_token):
         """Test DELETE /api/bot/{id}/channel/{channel_id} when an exception is raised."""
         mock_create_token.return_value = {"user_id": "mock_user"}
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_remove_channel.side_effect = Exception("Database error")
 

@@ -22,7 +22,7 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversations.return_value = "conversations_list"
         
@@ -66,7 +66,7 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_get_conversation.return_value = "a_conversation"
         
@@ -110,7 +110,7 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_update_conversation.return_value = "a_conversation"
         
@@ -160,7 +160,7 @@ class TestConversationAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_echo_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_echo_breadcrumb.return_value = fake_breadcrumb
         mock_add_message.return_value = "array of messages"
         

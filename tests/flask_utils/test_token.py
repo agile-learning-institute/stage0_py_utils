@@ -9,7 +9,7 @@ class TestCreateToken(unittest.TestCase):
         # Expected token structure
         expected = {
             "user_id": "aaaa00000000000000000001",
-            "roles": ["Staff"]
+            "roles": ["Staff", "admin"]
         }
 
         self.assertEqual(token, expected)

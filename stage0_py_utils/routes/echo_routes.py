@@ -19,7 +19,7 @@ def create_echo_routes(echo=None):
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             agents = echo.get_agents()
-            logger.info(f"get_agents Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            logger.info(f"get_agents Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(agents), 200
         except Exception as e:
             logger.warning(f"get_agents {type(e)} exception has occurred: {e}")
@@ -32,22 +32,22 @@ def create_echo_routes(echo=None):
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             action = echo.get_action(agent_name=agent, action_name=action)
-            logger.info(f"get_action Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            logger.info(f"get_action Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(action), 200
         except Exception as e:
             logger.warning(f"get_action {type(e)} exception has occurred: {e}")
             return jsonify({"error": "A processing error occurred"}), 500
         
-    # POST /api/echo/message/channel_id - Process a message to a conversation
-    @echo_routes.route('/message/<string:channel_id>', methods=['POST'])
-    def handle_message(channel_id):
+    # POST /api/echo/message - Handle a message
+    @echo_routes.route('/message', methods=['POST'])
+    def handle_message():
         try:
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
-            arguments = request.get_json()
-            action = echo.llm_handler.handle_message(channel=channel_id, user=arguments["user"], text=arguments["text"])
-            logger.info(f"handle_message Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
-            return jsonify(action), 200
+            message_data = request.get_json()
+            response = echo.handle_message(message_data, token, breadcrumb)
+            logger.info(f"handle_message Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            return jsonify(response), 200
         except Exception as e:
             logger.warning(f"handle_message {type(e)} exception has occurred: {e}")
             return jsonify({"error": "A processing error occurred"}), 500
