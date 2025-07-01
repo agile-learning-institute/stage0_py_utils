@@ -34,11 +34,16 @@ class Config:
             self.COMPLETED_STATUS = ''
             self.MONGO_DB_NAME = ''
             self.OLLAMA_HOST = ''
+            # Collection name properties (will be initialized from config)
             self.BOT_COLLECTION_NAME = ''
             self.CHAIN_COLLECTION_NAME = ''
             self.CONVERSATION_COLLECTION_NAME = ''
-            self.WORKSHOP_COLLECTION_NAME = ''
+            self.EXECUTION_COLLECTION_NAME = ''
             self.EXERCISE_COLLECTION_NAME = ''
+            self.RUNBOOK_COLLECTION_NAME = ''
+            self.TEMPLATE_COLLECTION_NAME = ''
+            self.USER_COLLECTION_NAME = ''
+            self.WORKSHOP_COLLECTION_NAME = ''
             self.VERSION_COLLECTION_NAME = ''
             self.ELASTIC_INDEX_NAME = ''
             self.DISCORD_FRAN_TOKEN = ''
@@ -72,11 +77,15 @@ class Config:
                 "COMPLETED_STATUS": "complete",
                 "MONGO_DB_NAME": "stage0",
                 "OLLAMA_HOST": "http://localhost:11434",
-                "BOT_COLLECTION_NAME": "bots",
-                "CHAIN_COLLECTION_NAME": "chains",
-                "CONVERSATION_COLLECTION_NAME": "conversations",
-                "WORKSHOP_COLLECTION_NAME": "workshops",
-                "EXERCISE_COLLECTION_NAME": "exercises",
+                "BOT_COLLECTION_NAME": "bot",
+                "CHAIN_COLLECTION_NAME": "chain",
+                "CONVERSATION_COLLECTION_NAME": "conversation",
+                "EXECUTION_COLLECTION_NAME": "execution",
+                "EXERCISE_COLLECTION_NAME": "exercise",
+                "RUNBOOK_COLLECTION_NAME": "runbook",
+                "TEMPLATE_COLLECTION_NAME": "template",
+                "USER_COLLECTION_NAME": "user",
+                "WORKSHOP_COLLECTION_NAME": "workshop",
                 "VERSION_COLLECTION_NAME": "CollectionVersions",
                 "ELASTIC_INDEX_NAME": "stage0",
                 "FRAN_MODEL_NAME": "llama3.2:latest",
@@ -142,14 +151,17 @@ class Config:
             value = json.loads(self._get_config_value(key, default, True))
             setattr(self, key, value)
             
-        # Populate MONGO_COLLECTION_NAMES with all Mongo collection names
+        # Use the new static collection names for MONGO_COLLECTION_NAMES
         self.MONGO_COLLECTION_NAMES = [
             self.BOT_COLLECTION_NAME,
             self.CHAIN_COLLECTION_NAME,
             self.CONVERSATION_COLLECTION_NAME,
-            self.WORKSHOP_COLLECTION_NAME,
+            self.EXECUTION_COLLECTION_NAME,
             self.EXERCISE_COLLECTION_NAME,
-            self.VERSION_COLLECTION_NAME
+            self.RUNBOOK_COLLECTION_NAME,
+            self.TEMPLATE_COLLECTION_NAME,
+            self.USER_COLLECTION_NAME,
+            self.WORKSHOP_COLLECTION_NAME
         ]
             
         return
