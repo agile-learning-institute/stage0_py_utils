@@ -16,7 +16,7 @@ def create_bot_agent(agent_name):
             token = create_echo_token()
             breadcrumb = create_echo_breadcrumb(token=token)
             bot = BotServices.get_bot(bot_id=arguments, token=token)
-            logger.info(f"get_bot Successful {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")            
+            logger.info(f"get_bot Successful {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")            
             return bot
         except Exception as e:
             logger.warning(f"A get_bot Error has occurred: {e}")
@@ -71,7 +71,7 @@ def create_bot_agent(agent_name):
             token = create_echo_token()
             breadcrumb = create_echo_breadcrumb(token=token)
             channels = BotServices.get_channels(bot_id=arguments, token=token)
-            logger.info(f"get_channels Successful {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")            
+            logger.info(f"get_channels Successful {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")            
             return channels
         except Exception as e:
             logger.warning(f"A get_channels Error has occurred: {e}")
@@ -102,7 +102,7 @@ def create_bot_agent(agent_name):
                 channel_id=arguments["channel_id"], 
                 bot_id=arguments["bot_id"], 
                 token=token, breadcrumb=breadcrumb)
-            logger.info(f"add_channel Successful {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")            
+            logger.info(f"add_channel Successful {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")            
             return channels
         except Exception as e:
             logger.warning(f"A add_channel Error has occurred: {e}")
@@ -143,7 +143,7 @@ def create_bot_agent(agent_name):
                 bot_id=arguments["bot_id"], 
                 channel_id=arguments["channel_id"], 
                 token=token, breadcrumb=breadcrumb)
-            logger.info(f"remove_channel Successful {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")            
+            logger.info(f"remove_channel Successful {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")            
             return channels
         except Exception as e:
             logger.warning(f"A remove_channel Error has occurred: {e}")

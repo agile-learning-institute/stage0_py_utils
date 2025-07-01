@@ -19,7 +19,7 @@ def create_conversation_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             conversations = ConversationServices.get_conversations(token=token)
-            logger.info(f"get_conversations Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"get_conversations Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(conversations), 200
         except Exception as e:
             logger.warning(f"get_conversations Error has occurred: {e}")
@@ -32,7 +32,7 @@ def create_conversation_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             conversation = ConversationServices.get_conversation(channel_id=channel_id, token=token, breadcrumb=breadcrumb)
-            logger.info(f"get_conversation Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"get_conversation Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(conversation), 200
         except Exception as e:
             logger.warning(f"get_conversation Error has occurred: {e}")
@@ -46,7 +46,7 @@ def create_conversation_routes():
             breadcrumb = create_flask_breadcrumb(token)
             data = request.get_json()
             conversation = ConversationServices.update_conversation(channel_id=channel_id, token=token, breadcrumb=breadcrumb, data=data)
-            logger.info(f"update_conversation Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"update_conversation Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(conversation), 200
         except Exception as e:
             logger.warning(f"update_conversation Error has occurred: {e}")
@@ -61,7 +61,7 @@ def create_conversation_routes():
             message_data = request.get_json()
             parsed_message = Message(llm_message=message_data, user=token["user_id"])
             messages = ConversationServices.add_message(channel_id=channel_id, message=parsed_message.as_llm_message(), token=token, breadcrumb=breadcrumb)
-            logger.info(f"add_message Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"add_message Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(messages), 200
         except Exception as e:
             logger.warning(f"add_message Error has occurred: {e}")
@@ -74,7 +74,7 @@ def create_conversation_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             conversation = ConversationServices.reset_conversation(channel_id=channel_id, token=token, breadcrumb=breadcrumb)
-            logger.info(f"reset_conversation Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"reset_conversation Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(conversation), 200
         except Exception as e:
             logger.warning(f"reset_conversation Error has occurred: {e}")
@@ -88,7 +88,7 @@ def create_conversation_routes():
             breadcrumb = create_flask_breadcrumb(token)
             data = request.get_json()
             conversation = ConversationServices.load_conversation(channel_id=channel_id, token=token, breadcrumb=breadcrumb, data=data)
-            logger.info(f"load_conversation Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"load_conversation Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(conversation), 200
         except Exception as e:
             logger.warning(f"load_conversation Error has occurred: {e}")
@@ -102,7 +102,7 @@ def create_conversation_routes():
             breadcrumb = create_flask_breadcrumb(token)
             data = request.get_json()
             conversation = ConversationServices.load_personality(channel_id=channel_id, token=token, breadcrumb=breadcrumb, data=data)
-            logger.info(f"load_personality Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"load_personality Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(conversation), 200
         except Exception as e:
             logger.warning(f"load_personality Error has occurred: {e}")
@@ -116,7 +116,7 @@ def create_conversation_routes():
             breadcrumb = create_flask_breadcrumb(token)
             data = request.get_json()
             conversation = ConversationServices.initialize_conversation(token=token, breadcrumb=breadcrumb, data=data)
-            logger.info(f"initialize_conversation Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"initialize_conversation Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(conversation), 200
         except Exception as e:
             logger.warning(f"initialize_conversation Error has occurred: {e}")

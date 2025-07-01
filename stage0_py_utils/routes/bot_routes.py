@@ -19,7 +19,7 @@ def create_bot_routes():
             breadcrumb = create_flask_breadcrumb(token)
             query = request.args.get('query') or ""
             bots = BotServices.get_bots(query, token)
-            logger.info(f"get_bots Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"get_bots Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(bots), 200
         except Exception as e:
             logger.warning(f"get_bots Error has occurred: {e}")
@@ -32,7 +32,7 @@ def create_bot_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             bot = BotServices.get_bot(id, token)
-            logger.info(f"get_bot Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"get_bot Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(bot), 200
         except Exception as e:
             logger.warning(f"get_bot Error has occurred: {e}")
@@ -46,7 +46,7 @@ def create_bot_routes():
             breadcrumb = create_flask_breadcrumb(token)
             data = request.get_json()
             bot = BotServices.update_bot(id, token, breadcrumb, data)
-            logger.info(f"update_bot Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"update_bot Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(bot), 200
         except Exception as e:
             logger.warning(f"update_bot Error has occurred: {e}")
@@ -59,7 +59,7 @@ def create_bot_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             channels = BotServices.get_channels(id, token)
-            logger.info(f"get_channels Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"get_channels Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(channels), 200
         except Exception as e:
             logger.warning(f"get_channels Error has occurred: {e}")
@@ -72,7 +72,7 @@ def create_bot_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             channels = BotServices.add_channel(id, token, breadcrumb, channel_id)
-            logger.info(f"add_channel Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"add_channel Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(channels), 200
         except Exception as e:
             logger.warning(f"add_channel Error has occurred: {e}")
@@ -85,7 +85,7 @@ def create_bot_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             channels = BotServices.remove_channel(id, token, breadcrumb, channel_id)
-            logger.info(f"remove_channel Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
+            logger.info(f"remove_channel Success {str(breadcrumb['at_time'])}, {breadcrumb['correlation_id']}")
             return jsonify(channels), 200
         except Exception as e:
             logger.warning(f"remove_channel Error has occurred: {e}")
