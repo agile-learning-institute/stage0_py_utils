@@ -183,6 +183,13 @@ class Config:
             self.USER_COLLECTION_NAME,
             self.WORKSHOP_COLLECTION_NAME
         ]
+        
+        # Add MONGO_COLLECTION_NAMES to config_items for tracking
+        self.config_items.append({
+            "name": "MONGO_COLLECTION_NAMES",
+            "value": self.MONGO_COLLECTION_NAMES,
+            "from": "computed"
+        })
             
         return
 
