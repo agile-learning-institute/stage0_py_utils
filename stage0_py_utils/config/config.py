@@ -62,6 +62,16 @@ class Config:
             self.ELASTIC_SYNC_PERIOD = 0
             self.SYNC_BATCH_SIZE = 0
             self.MONGO_COLLECTION_NAMES = []
+            # SPA Collection URL properties
+            self.BOT_SPA_URL = ''
+            self.CHAIN_SPA_URL = ''
+            self.CONVERSATION_SPA_URL = ''
+            self.EXECUTION_SPA_URL = ''
+            self.EXERCISE_SPA_URL = ''
+            self.RUNBOOK_SPA_URL = ''
+            self.TEMPLATE_SPA_URL = ''
+            self.USER_SPA_URL = ''
+            self.WORKSHOP_SPA_URL = ''
     
             # Default Values grouped by value type            
             self.config_strings = {
@@ -92,6 +102,16 @@ class Config:
                 "FRAN_BOT_ID": "BBB000000000000000000001",
                 "ELASTIC_SEARCH_INDEX": "stage0_search",
                 "ELASTIC_SYNC_INDEX": "stage0_sync_history",
+                # SPA Collection URLs
+                "BOT_SPA_URL": "http://localhost:8080/bot/",
+                "CHAIN_SPA_URL": "http://localhost:8080/chain/",
+                "CONVERSATION_SPA_URL": "http://localhost:8080/conversation/",
+                "EXECUTION_SPA_URL": "http://localhost:8080/execution/",
+                "EXERCISE_SPA_URL": "http://localhost:8080/exercise/",
+                "RUNBOOK_SPA_URL": "http://localhost:8080/runbook/",
+                "TEMPLATE_SPA_URL": "http://localhost:8080/template/",
+                "USER_SPA_URL": "http://localhost:8080/user/",
+                "WORKSHOP_SPA_URL": "http://localhost:8080/workshop/",
             }
             self.config_ints = {
                 "FRAN_BOT_PORT": "8087",
@@ -163,6 +183,13 @@ class Config:
             self.USER_COLLECTION_NAME,
             self.WORKSHOP_COLLECTION_NAME
         ]
+        
+        # Add MONGO_COLLECTION_NAMES to config_items for tracking
+        self.config_items.append({
+            "name": "MONGO_COLLECTION_NAMES",
+            "value": self.MONGO_COLLECTION_NAMES,
+            "from": "computed"
+        })
             
         return
 
