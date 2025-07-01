@@ -29,7 +29,7 @@ class TestBotAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        mock_create_breadcrumb.return_value = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_get_bot.return_value = mock_bot_object
         
         # Call function
@@ -50,7 +50,7 @@ class TestBotAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        mock_create_breadcrumb.return_value = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_get_bot.side_effect = Exception("Test Exception")
         
         # Call function
@@ -72,7 +72,7 @@ class TestBotAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        mock_create_breadcrumb.return_value = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_get_channels.return_value = mock_channels
         
         # Call function
@@ -93,7 +93,7 @@ class TestBotAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        mock_create_breadcrumb.return_value = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        mock_create_breadcrumb.return_value = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_get_channels.side_effect = Exception("Test Exception")
         
         # Call function
@@ -115,7 +115,7 @@ class TestBotAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_add_channel.return_value = mock_channels
         
@@ -140,7 +140,7 @@ class TestBotAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_add_channel.side_effect = Exception("Test Exception")
         
@@ -169,7 +169,7 @@ class TestBotAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_remove_channel.return_value = mock_channels
         
@@ -197,7 +197,7 @@ class TestBotAgent(unittest.TestCase):
         
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_remove_channel.side_effect = Exception("Test Exception")
         

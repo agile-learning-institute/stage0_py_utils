@@ -19,7 +19,7 @@ def create_bot_routes():
             breadcrumb = create_flask_breadcrumb(token)
             query = request.args.get('query') or ""
             bots = BotServices.get_bots(query, token)
-            logger.info(f"get_bots Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            logger.info(f"get_bots Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(bots), 200
         except Exception as e:
             logger.warning(f"get_bots Error has occurred: {e}")
@@ -32,63 +32,63 @@ def create_bot_routes():
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             bot = BotServices.get_bot(id, token)
-            logger.info(f"get_bot Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            logger.info(f"get_bot Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(bot), 200
         except Exception as e:
             logger.warning(f"get_bot Error has occurred: {e}")
             return jsonify({"error": "A processing error occurred"}), 500
 
-    # PATCH /api/bot/{id} - Update a bot
-    @bot_routes.route('/<string:id>', methods=['PATCH'])
+    # PUT /api/bot/{id} - Update a specific bot
+    @bot_routes.route('/<string:id>', methods=['PUT'])
     def update_bot(id):
         try:
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
-            patch_data = request.get_json()
-            bot = BotServices.update_bot(id, token, breadcrumb, patch_data)
-            logger.info(f"update_bot Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            data = request.get_json()
+            bot = BotServices.update_bot(id, token, breadcrumb, data)
+            logger.info(f"update_bot Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(bot), 200
         except Exception as e:
-            logger.warning(f"update_bot processing error occurred {e}")
+            logger.warning(f"update_bot Error has occurred: {e}")
             return jsonify({"error": "A processing error occurred"}), 500
         
-    # GET /api/bot/{id}/channels - Get Active Channels
+    # GET /api/bot/{id}/channels - Return a list of channels for the specified bot
     @bot_routes.route('/<string:id>/channels', methods=['GET'])
     def get_channels(id):
         try:
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
-            channels = BotServices.get_channels(id, breadcrumb)
-            logger.info(f"get_channels Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            channels = BotServices.get_channels(id, token)
+            logger.info(f"get_channels Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(channels), 200
         except Exception as e:
-            logger.warning(f"get_channels processing error occurred {e}")
+            logger.warning(f"get_channels Error has occurred: {e}")
             return jsonify({"error": "A processing error occurred"}), 500
 
-    # POST /api/bot/{id}/channel/{channel_id} - Add a channel
+    # POST /api/bot/{id}/channel/{channel_id} - Add a channel to the specified bot
     @bot_routes.route('/<string:id>/channel/<string:channel_id>', methods=['POST'])
     def add_channel(id, channel_id):
         try:
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             channels = BotServices.add_channel(id, token, breadcrumb, channel_id)
-            logger.info(f"add_channel Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            logger.info(f"add_channel Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(channels), 200
         except Exception as e:
-            logger.warning(f"add_channel processing error occurred {e}")
+            logger.warning(f"add_channel Error has occurred: {e}")
             return jsonify({"error": "A processing error occurred"}), 500
 
-    # DELETE /api/bot/{id}/channel/{channel_id} - Remove a channel
+    # DELETE /api/bot/{id}/channel/{channel_id} - Remove a channel from the specified bot
     @bot_routes.route('/<string:id>/channel/<string:channel_id>', methods=['DELETE'])
     def remove_channel(id, channel_id):
         try:
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
             channels = BotServices.remove_channel(id, token, breadcrumb, channel_id)
-            logger.info(f"remove_channel Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            logger.info(f"remove_channel Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(channels), 200
         except Exception as e:
-            logger.warning(f"remove_channel processing error occurred {e}")
+            logger.warning(f"remove_channel Error has occurred: {e}")
             return jsonify({"error": "A processing error occurred"}), 500
 
     logger.info("Bot Flask Routes Registered")

@@ -18,7 +18,7 @@ def create_config_routes():
             # Return the JSON representation of the config object
             token = create_flask_token()
             breadcrumb = create_flask_breadcrumb(token)
-            logger.info(f"get_config Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            logger.info(f"get_config Success {str(breadcrumb["at_time"])}, {breadcrumb["correlation_id"]}")
             return jsonify(config.to_dict(token)), 200
         except Exception as e:
             logger.warning(f"get_config Error has occurred: {e}")

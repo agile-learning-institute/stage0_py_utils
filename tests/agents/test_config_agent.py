@@ -19,7 +19,7 @@ class TestConfigAgent(unittest.TestCase):
        
         # Mock return values
         mock_create_token.return_value = "fake_token"
-        fake_breadcrumb = {"atTime":"sometime", "correlationId":"correlation_ID"}
+        fake_breadcrumb = {"at_time":"sometime", "correlation_id":"correlation_ID"}
         mock_create_breadcrumb.return_value = fake_breadcrumb
         mock_config_to_dict.side_effect = Exception("Test Exception")
         

@@ -47,7 +47,7 @@ def create_echo_agent(agent_name, echo=None):
             action = arguments["action"]
             logger.info(f"Getting Action {agent}, {action}")
             action_info = echo.get_action(agent_name=agent, action_name=action)
-            logger.info(f"get_action Success {str(breadcrumb["atTime"])}, {breadcrumb["correlationId"]}")
+            logger.info(f"get_action Success")
             return action_info
         except Exception as e:
             logger.warning(f"get_action Error has occurred: {e}")

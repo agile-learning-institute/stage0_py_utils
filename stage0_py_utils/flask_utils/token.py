@@ -5,5 +5,5 @@ def create_flask_token():
     return {
         # TODO: Get Values from JWT
         "user_id": "aaaa00000000000000000001",
-        "roles": ["Staff"]
+        "roles": ["Staff", "admin"]
     }
