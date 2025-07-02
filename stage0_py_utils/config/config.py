@@ -38,6 +38,7 @@ class Config:
             self.BOT_COLLECTION_NAME = ''
             self.CHAIN_COLLECTION_NAME = ''
             self.CONVERSATION_COLLECTION_NAME = ''
+            self.ENUMERATORS_COLLECTION_NAME = ''
             self.EXECUTION_COLLECTION_NAME = ''
             self.EXERCISE_COLLECTION_NAME = ''
             self.RUNBOOK_COLLECTION_NAME = ''
@@ -91,6 +92,7 @@ class Config:
                 "BOT_COLLECTION_NAME": "bot",
                 "CHAIN_COLLECTION_NAME": "chain",
                 "CONVERSATION_COLLECTION_NAME": "conversation",
+                "ENUMERATORS_COLLECTION_NAME": "enumerators",
                 "EXECUTION_COLLECTION_NAME": "execution",
                 "EXERCISE_COLLECTION_NAME": "exercise",
                 "RUNBOOK_COLLECTION_NAME": "runbook",
