@@ -35,7 +35,7 @@ class TestConfigDefaults(unittest.TestCase):
         result_dict = self.config.to_dict({})
         self.assertIsInstance(result_dict["config_items"], list)
         self.assertIsInstance(result_dict["versions"], list)
-        self.assertIsInstance(result_dict["enumerators"], dict)
+        self.assertIsInstance(result_dict["enumerators"], list)
         self.assertIsInstance(result_dict["token"], dict)
         
     def test_default_string_ci(self):

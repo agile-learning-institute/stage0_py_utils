@@ -27,7 +27,7 @@ class TestConfigRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.json["config_items"], list)
         self.assertIsInstance(response.json["versions"], list)
-        self.assertIsInstance(response.json["enumerators"], dict)
+        self.assertIsInstance(response.json["enumerators"], list)
         
         mock_create_token.assert_called_once()
         mock_create_breadcrumb.assert_called_once_with(mock_token)

@@ -15,7 +15,7 @@ class Config:
             Config._instance = self
             self.config_items = []
             self.versions = []
-            self.enumerators = {}
+            self.enumerators = []
             self.CONFIG_FOLDER = "./"
             
             # Declare instance variables to support IDE code assist
@@ -148,7 +148,7 @@ class Config:
         """Initialize configuration values."""
         self.config_items = []
         self.versions = []
-        self.enumerators = {}
+        self.enumerators = []
 
         # Initialize Config Strings
         for key, default in self.config_strings.items():
